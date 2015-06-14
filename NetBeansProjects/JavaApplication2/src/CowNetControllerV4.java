@@ -1,4 +1,3 @@
-
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.simple.tests.SimpleLampMatrixTest;
 import us.cownet.lamps.tests.DebugPinballOutputController;
