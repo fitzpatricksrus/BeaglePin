@@ -6,18 +6,21 @@ import us.cownet.lamps.LampMatrix;
 import us.cownet.timers.Callback;
 
 public class SimpleGreyscaleLampMatrix implements GreyscaleLampMatrix {
+    private static final int GREYSCALE_BITS = 8;
     private LampMatrix matrix;
     private GreyscaleLampPattern pattern;
     private int tickNumber;
     private Callback callback;
-    private SimpleLampPattern patterns[] = new SimpleLampPattern[8];
+    private SimpleLampPattern patterns[] = new SimpleLampPattern[GREYSCALE_BITS];
 
-    private static final int MASK[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
-    private static final int INDEX[] = new int[256];
+    //{0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+    private static final int MASK[] = new int[GREYSCALE_BITS];
+    private static final int INDEX[] = new int[2 ^ GREYSCALE_BITS];
 
     static {
         int next = 0;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < GREYSCALE_BITS; i++) {
+            MASK[i] = 2 ^ i;
             for (int j = 0; j < MASK[i]; j++) {
                 INDEX[next++] = i;
             }
@@ -53,7 +56,7 @@ public class SimpleGreyscaleLampMatrix implements GreyscaleLampMatrix {
     }
 
     private void tick() {
-        tickNumber = (tickNumber + 1) % 256;
+        tickNumber = (tickNumber + 1) % (2 ^ GREYSCALE_BITS);
         if (tickNumber == 0 && callback != null) {
             callback.call();
         }
