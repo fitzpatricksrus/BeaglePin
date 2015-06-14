@@ -1,45 +1,42 @@
 package us.cownet.lamps.wpc;
 
-import org.bulldog.beagleboneblack.BBBNames;
-import org.bulldog.core.Signal;
-import org.bulldog.core.gpio.DigitalOutput;
-import org.bulldog.core.platform.Board;
-import org.bulldog.core.platform.Platform;
+//import org.bulldog.beagleboneblack.BBBNames;
+//import org.bulldog.core.Signal;
+//import org.bulldog.core.gpio.DigitalOutput;
+//import org.bulldog.core.platform.Board;
+//import org.bulldog.core.platform.Platform;
 import us.cownet.lamps.PinballOutputController;
 
 public class WpcOutputController implements PinballOutputController {
 
 //    private final byte[] cachedData;
-    private final DigitalOutput[] signalPins;
-    private final DigitalOutput[] dataPins;
-
+//    private final DigitalOutput[] signalPins;
+//    private final DigitalOutput[] dataPins;
     public WpcOutputController(String[] dataPinsIn, String[] signalPinsIn) {
-        this.signalPins = new DigitalOutput[signalPinsIn.length];
-        this.dataPins = new DigitalOutput[dataPinsIn.length];
-//        this.cachedData = new byte[SIGNAL_COUNT];
-//        for (int i = 0; i < SIGNAL_COUNT; i++) {
-//            this.cachedData[i] = 0;
-//        }
+        /*        this.signalPins = new DigitalOutput[signalPinsIn.length];
+         //        this.dataPins = new DigitalOutput[dataPinsIn.length];
+         //        this.cachedData = new byte[SIGNAL_COUNT];
+         //        for (int i = 0; i < SIGNAL_COUNT; i++) {
+         //            this.cachedData[i] = 0;
+         //        }
 
-        Board board = Platform.createBoard();
+         //        Board board = Platform.createBoard();
+         for (int i = 0; i < dataPins.length; i++) {
+         dataPins[i] = board.getPin(dataPinsIn[i]).as(DigitalOutput.class);
+         dataPins[i].write(Signal.High);
+         }
 
-        for (int i = 0; i < dataPins.length; i++) {
-            dataPins[i] = board.getPin(dataPinsIn[i]).as(DigitalOutput.class);
-            dataPins[i].write(Signal.High);
-        }
-
-        for (Register i : Register.values()) {
-            signalPins[i.ordinal()] = board.getPin(signalPinsIn[i.ordinal()]).as(DigitalOutput.class);
-            // Note that the write() method will convert this to the
-            // proper inverted value to turn things off/low
-            write(i, (byte)0);
-        }
+         for (Register i : Register.values()) {
+         //            signalPins[i.ordinal()] = board.getPin(signalPinsIn[i.ordinal()]).as(DigitalOutput.class);
+         // Note that the write() method will convert this to the
+         // proper inverted value to turn things off/low
+         write(i, (byte)0);
+         } */
     }
 
-    private String pinName(int ndx) {
-        return BBBNames.P8 + "_" + ndx;
-    }
-
+//    private String pinName(int ndx) {
+//        return BBBNames.P8 + "_" + ndx;
+//    }
     public static final int SIGNAL_COUNT = Register.SIGNAL_COUNT.ordinal();
 
     private static final int MASK[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
@@ -54,13 +51,13 @@ public class WpcOutputController implements PinballOutputController {
             // signals on the data lines are inverted on WPC so we convert
             // ON to low
             if ((value & MASK[i]) == 0) {
-                dataPins[i].write(Signal.High);
+//                dataPins[i].write(Signal.High);
             } else {
-                dataPins[i].write(Signal.Low);
+//                dataPins[i].write(Signal.Low);
             }
         }
-        signalPins[signal.ordinal()].write(Signal.Low);
-        signalPins[signal.ordinal()].write(Signal.High);
+//        signalPins[signal.ordinal()].write(Signal.Low);
+//        signalPins[signal.ordinal()].write(Signal.High);
     }
 
 }
