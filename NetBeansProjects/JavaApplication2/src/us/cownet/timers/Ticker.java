@@ -1,6 +1,8 @@
 package us.cownet.timers;
 
 public class Ticker {
+	// hey jf - this should be called Timer
+	
 	public Ticker(long periodMicrosIn) {
 		periodMicros = periodMicrosIn;
 	}

@@ -1,7 +1,7 @@
 package us.cownet.timers;
 
 public class TimerUtil {
-	public boolean attachInterrupt(Callback callback, long microseconds) {
+	public boolean attachInterrupt(Callback callback, long micros) {
 		this.callback = callback;
 		ticker = new Ticker(microseconds);
 		return true;
