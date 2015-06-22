@@ -6,11 +6,11 @@ public class Ticker {
 	}
 
 	public void setPeriod(long periodTicksIn) {
-		periodMicros = periodMicrosIn;
+		periodMicros = periodTicksIn;
 	}
-	
+
 	public long getPeriod() {
-		return perdioMicros;
+		return periodMicros;
 	}
 
 	public boolean isTime() {

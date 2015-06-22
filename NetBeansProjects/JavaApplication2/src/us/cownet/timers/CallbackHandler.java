@@ -14,7 +14,7 @@ public class CallbackHandler {
 	}
 
 	public void addCallback(Callback c) {
-		callbacks.append(c);
+		callbacks.add(c);
 	}
 
 	public void removeCallback(Callback c) {

@@ -9,16 +9,16 @@ import us.cownet.timers.TimerUtil;
 public class SimpleLampMatrix implements LampMatrix {
 
 	private final PinballOutputController controller;
-	private final long micros;
+	private final long ticks;
 	private int currentColumn;
 	private LampPattern currentPattern;
 	private LampPattern nextPattern;
 	private Callback callback = null;
 	private Callback thisCallback = null;
 
-	public SimpleLampMatrix(PinballOutputController controller, long micros) {
+	public SimpleLampMatrix(PinballOutputController controller, long ticks) {
 		this.controller = controller;
-		this.micros = micros;
+		this.ticks = ticks;
 		this.currentColumn = 0;
 		this.currentPattern = null;
 		this.nextPattern = null;
@@ -39,7 +39,7 @@ public class SimpleLampMatrix implements LampMatrix {
 		nextPattern = lamps;
 		if (currentPattern == null && nextPattern != null) {
 			currentPattern = lamps;
-			TimerUtil.INSTANCE.attachInterrupt(thisCallback, micros);
+			TimerUtil.INSTANCE.attachToTickerIntterupt(thisCallback, ticks);
 		} else if (currentPattern != null && nextPattern == null) {
 			TimerUtil.INSTANCE.detachInterrupt(thisCallback);
 			currentPattern = null;

@@ -8,9 +8,9 @@ public class Timer {
 	public void setPeriod(long periodMicrosIn) {
 		periodMicros = periodMicrosIn;
 	}
-	
+
 	public long getPeriod() {
-		return peroidMicros;
+		return periodMicros;
 	}
 
 	public boolean isTime() {
