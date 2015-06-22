@@ -1,24 +1,14 @@
 package us.cownet.timers;
 
-public class TimerUtil {
-	public boolean attachInterrupt(Callback callback, long micros) {
-		this.callback = callback;
-		ticker = new Ticker(microseconds);
-		return true;
-	}
+import java.util.vector;
 
-	public void detachInterrupt(Callback callback) {
-		callback = null;
-		ticker = null;
-	}
-
+public class TimerUtil extends CallbackHandler {
 	public void hackTick() {
 		if (hackMicros != REAL_TICKS) {
 			hackMicros++;
 		}
-		if (callback != null && ticker.isTime()) {
-			callback.call();
-		}
+		ticks++;
+		invokeCallbacks();
 	}
 
 	public void hackTime(long timeMicros) {
@@ -36,11 +26,14 @@ public class TimerUtil {
 			return System.nanoTime() * 1000;
 		}
 	}
+	
+	public long currentTimeTicks() {
+		return ticks;
+	}
 
 	public static TimerUtil INSTANCE = new TimerUtil();
 	public static final long REAL_TICKS = -1;
 
-	private Callback callback;
-	private Ticker ticker;
+	private long ticks;
 	private long hackMicros = REAL_TICKS;
 }

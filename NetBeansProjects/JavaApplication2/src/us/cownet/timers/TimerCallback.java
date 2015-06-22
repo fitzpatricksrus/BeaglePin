@@ -1,20 +1,15 @@
 package us.cownet.timers;
 
-public class TimerCallback implements Callback {
+public class TimerCallback implements Callback extends CallbackHandler {
 	public TimerCallback(long micros) {
-		ticker = new Ticker(micros);
-		callbacks = new Vector<Callback>();
+		timer = new Timer(micros);
 	}
 	
 	public void call() {
-		if (ticker.isTime()) {
-			for (Callback c : callbacks) {
-				c.call();
-			}
+		if (timer.isTime()) {
+			invokeCallbacks();
 		}
 	}
 	
-	private Ticker ticker;
-	private Vector<Callback> callbacks;
-	
+	private Timer timer;
 }
