@@ -39,7 +39,7 @@ public class SimpleLampMatrix implements LampMatrix {
 		nextPattern = lamps;
 		if (currentPattern == null && nextPattern != null) {
 			currentPattern = lamps;
-			TimerUtil.INSTANCE.attachToTickerIntterupt(thisCallback, ticks);
+			TimerUtil.INSTANCE.attachToTimerIntterupt(thisCallback, ticks);
 		} else if (currentPattern != null && nextPattern == null) {
 			TimerUtil.INSTANCE.detachInterrupt(thisCallback);
 			currentPattern = null;

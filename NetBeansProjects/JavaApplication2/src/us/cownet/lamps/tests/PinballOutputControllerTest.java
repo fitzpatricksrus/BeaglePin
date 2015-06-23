@@ -15,7 +15,7 @@ public class PinballOutputControllerTest implements Test {
 
 	@Override
 	public void setup() {
-		TimerUtil.INSTANCE.enableHackTicks(true);
+		TimerUtil.INSTANCE.enableHackTicks(false);
 	}
 
 	@Override
