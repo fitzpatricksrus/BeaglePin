@@ -20,7 +20,7 @@ public class PinballOutputControllerTest implements Test {
 
 	@Override
 	public void loop() {
-		TimerUtil.INSTANCE.hackTick();
+		TimerUtil.INSTANCE.tick();
 		if (ticks.isTime()) {
 			hardware.write(PinballOutputController.Register.LAMP_COL, (byte)0);
 			// set the row lamps
