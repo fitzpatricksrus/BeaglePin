@@ -60,6 +60,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 						DOT_SIZE,
 						DOT_SIZE);
 				squares[col][row].grow(-1, -1);
+				dutyCycle[col][row] = new DutyCycleCalculator(256);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {
@@ -112,6 +113,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 
 	private void drawLamp(Graphics2D g2d, int col, int row, boolean on) {
 		Rectangle box = squares[col][row];
+		dutyCycle[col][row].addSample(on);
 		if (on) {
 			g2d.setPaint(Color.ORANGE);
 			g2d.fill(box);

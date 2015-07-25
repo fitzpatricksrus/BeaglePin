@@ -23,7 +23,7 @@ public class LampMatrixTest implements Test {
 		0b01000001
 	};
 
-	private static SimpleLampPattern pattern = new SimpleLampPattern(patternValues);
+	private static final SimpleLampPattern pattern = new SimpleLampPattern(patternValues);
 
 	@Override
 	public void setup() {
