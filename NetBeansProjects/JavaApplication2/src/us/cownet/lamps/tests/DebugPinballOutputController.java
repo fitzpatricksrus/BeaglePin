@@ -12,7 +12,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 	private static final int DOT_SIZE = 40;
 	private static final int ROWS = 8;
 	private static final int COLS = 8;
-	private static final int DUTY_CYCLE_SAMPLE_SIZE = ROWS * COLS;
+	private static final int DUTY_CYCLE_SAMPLE_SIZE = COLS * 256;
 	private static final Rectangle squares[][] = new Rectangle[COLS][ROWS];
 	private static final DutyCycleCalculator dutyCycle[][] = new DutyCycleCalculator[COLS][ROWS];
 	private static final int MASK[] = new int[Math.max(ROWS, COLS)];
@@ -61,7 +61,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 						DOT_SIZE,
 						DOT_SIZE);
 				squares[col][row].grow(-1, -1);
-				dutyCycle[col][row] = new DutyCycleCalculator(DUTY_CYCLE_SAMPLE_SIZE);
+				dutyCycle[col][row] = new DutyCycleCalculator(DUTY_CYCLE_SAMPLE_SIZE, COLS);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {

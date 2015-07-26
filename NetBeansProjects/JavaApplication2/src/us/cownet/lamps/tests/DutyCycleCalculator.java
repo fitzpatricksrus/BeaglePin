@@ -1,6 +1,14 @@
 package us.cownet.lamps.tests;
 
 public class DutyCycleCalculator {
+	public DutyCycleCalculator(int sampleSize, int scale) {
+		samples = new int[sampleSize];
+		sampleIndex = 0;
+		sampleTotal = 0.0;
+		lastTick = 0;
+		this.scale = scale;
+	}
+
 	public DutyCycleCalculator(int sampleSize) {
 		samples = new int[sampleSize];
 		sampleIndex = 0;
@@ -24,7 +32,10 @@ public class DutyCycleCalculator {
 	}
 
 	public double getDutyCycle() {
-		return sampleTotal / samples.length;
+		double result = sampleTotal / samples.length * scale;
+		result *= 1000;
+		result = Math.floor(result);
+		return result / 10;
 	}
 
 	public String toString() {
@@ -36,6 +47,7 @@ public class DutyCycleCalculator {
 	private int sampleIndex;
 	private double sampleTotal;
 	private long lastTick;
+	private int scale;
 
 	public static void main(String[] args) {
 		DutyCycleCalculator dcc = new DutyCycleCalculator(10);

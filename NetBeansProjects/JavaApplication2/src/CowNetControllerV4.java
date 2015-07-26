@@ -1,6 +1,6 @@
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.simple.tests.SimpleLampMatrixTest;
+import us.cownet.lamps.simple.tests.SimpleGreyscaleLampMatrixTest;
 import us.cownet.lamps.tests.DebugPinballOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -10,8 +10,8 @@ public class CowNetControllerV4 {
 		PinballOutputController controller = new DebugPinballOutputController();
 
 //		PinballOutputControllerTest test = new PinballOutputControllerTest(controller);
-		SimpleLampMatrixTest test = new SimpleLampMatrixTest(controller, 50);
-
+//		SimpleLampMatrixTest test = new SimpleLampMatrixTest(controller, 50);
+		SimpleGreyscaleLampMatrixTest test = new SimpleGreyscaleLampMatrixTest(controller, 50L);
 		//SimpleLampMatrixTest test(controller, 2000L * 1000L);
 		Test currentTest = test;
 
