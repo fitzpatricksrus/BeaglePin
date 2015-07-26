@@ -5,13 +5,14 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import us.cownet.lamps.PinballOutputController;
+import us.cownet.timers.TimerUtil;
 
 public class DebugPinballOutputController extends Canvas implements PinballOutputController {
 	private static final Stroke stroke = new BasicStroke();
 	private static final int DOT_SIZE = 40;
 	private static final int ROWS = 8;
 	private static final int COLS = 8;
-	private static final int DUTY_CYCLE_SAMPLE_SIZE = 1024;
+	private static final int DUTY_CYCLE_SAMPLE_SIZE = ROWS * COLS;
 	private static final Rectangle squares[][] = new Rectangle[COLS][ROWS];
 	private static final DutyCycleCalculator dutyCycle[][] = new DutyCycleCalculator[COLS][ROWS];
 	private static final int MASK[] = new int[Math.max(ROWS, COLS)];
@@ -60,7 +61,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 						DOT_SIZE,
 						DOT_SIZE);
 				squares[col][row].grow(-1, -1);
-				dutyCycle[col][row] = new DutyCycleCalculator(256);
+				dutyCycle[col][row] = new DutyCycleCalculator(DUTY_CYCLE_SAMPLE_SIZE);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {
@@ -100,6 +101,22 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 		}
 		g.dispose();
 		strategy.show();
+
+		TimerUtil.INSTANCE.attachTickerCallback(
+				() -> advanceDutyCycles(),
+				0);
+	}
+
+	private void advanceDutyCycles() {
+		for (int col = 0; col < COLS; col++) {
+			for (int row = 0; row < ROWS; row++) {
+				if (col == currentColumn) {
+					dutyCycle[col][row].addSample((currentRows & MASK[row]) != 0);
+				} else {
+					dutyCycle[col][row].addSample(false);
+				}
+			}
+		}
 	}
 
 	private void drawColumn(Graphics2D g2d, int col, int rows) {
@@ -113,7 +130,6 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 
 	private void drawLamp(Graphics2D g2d, int col, int row, boolean on) {
 		Rectangle box = squares[col][row];
-		dutyCycle[col][row].addSample(on);
 		if (on) {
 			g2d.setPaint(Color.ORANGE);
 			g2d.fill(box);
@@ -128,6 +144,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 	}
 
 	public static void main(String[] args) {
+		TimerUtil.INSTANCE.enableHackTicks(true);
 		DebugPinballOutputController hardware = new DebugPinballOutputController();
 		for (int i = 0; i < 40000; i++) {
 			for (int col = 0; col < COLS; col++) {
@@ -144,6 +161,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 						Thread.sleep(100, 000);
 					} catch (Exception e) {
 					}
+					TimerUtil.INSTANCE.tick();
 				}
 			}
 		}
