@@ -21,13 +21,13 @@ public class SimpleGreyscaleLampMatrix implements GreyscaleLampMatrix {
 		int next = 0;
 		for (int i = 0; i < GREYSCALE_BITS; i++) {
 			MASK[i] = (int)Math.pow(2, i);
-			System.out.println(MASK[i]);
+//			System.out.println(MASK[i]);
 			for (int j = 0; j < MASK[i]; j++) {
 				INDEX[next++] = i;
 			}
 		}
 		INDEX[next++] = GREYSCALE_BITS - 1;
-		System.out.println();
+//		System.out.println();
 	}
 
 	public SimpleGreyscaleLampMatrix(LampMatrix matrix) {
@@ -50,8 +50,10 @@ public class SimpleGreyscaleLampMatrix implements GreyscaleLampMatrix {
 				}
 			}
 		}
-		tickNumber = 0;
-		matrix.setPattern(patterns[0]);
+		// we could reset tickNumber here, but that would have the effect
+		// of rapidly changing patterns to be on artificially long since
+		// tickNumber would always be low.  So, we just leave it as it is.
+		matrix.setPattern(patterns[INDEX[tickNumber]]);
 	}
 
 	public void setSyncCallback(Callback callback) {
