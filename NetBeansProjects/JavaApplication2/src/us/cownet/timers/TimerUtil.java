@@ -1,7 +1,7 @@
 package us.cownet.timers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class TimerUtil {
 	public void attachTickerCallback(Callback c, long ticks) {
@@ -18,7 +18,9 @@ public class TimerUtil {
 	public void detachTickerCallback(Callback c) {
 		for (CallbackHandler handler : tickerCallbackList.values()) {
 			handler.removeCallback(c);
-			// hey jf - it might be nice to do garbage collection of empty lists here.
+			if (handler.isEmpty()) {
+				// hey jf - it might be nice to do garbage collection of empty lists here.
+			}
 		}
 
 	}
@@ -37,9 +39,10 @@ public class TimerUtil {
 	public void detachTimerCallback(Callback c) {
 		for (CallbackHandler handler : timerCallbackList.values()) {
 			handler.removeCallback(c);
-			// hey jf - it might be nice to do garbage collection of empty lists here.
+			if (handler.isEmpty()) {
+				// hey jf - it might be nice to do garbage collection of empty lists here.
+			}
 		}
-
 	}
 
 	public void tick() {
@@ -80,17 +83,17 @@ public class TimerUtil {
 	public static final long REAL_TICKS = -1;
 
 	private TimerUtil() {
-		tickers = new HashMap<Long, Ticker>();
-		timers = new HashMap<Long, Timer>();
-		tickerCallbackList = new HashMap<Ticker, CallbackHandler>();
-		timerCallbackList = new HashMap<Timer, CallbackHandler>();
+		tickers = new HashMap<>();
+		timers = new HashMap<>();
+		tickerCallbackList = new HashMap<>();
+		timerCallbackList = new HashMap<>();
 		ticks = 0;
 		useHackTicks = false;
 	}
 
 	private class CallbackHandler {
 		public CallbackHandler() {
-			callbacks = new Vector<Callback>();
+			callbacks = new ArrayList<>();
 		}
 
 		public void invokeCallbacks() {
@@ -111,13 +114,13 @@ public class TimerUtil {
 			return callbacks.isEmpty();
 		}
 
-		private Vector<Callback> callbacks;
+		private final ArrayList<Callback> callbacks;
 	}
 
-	private HashMap<Ticker, CallbackHandler> tickerCallbackList;
-	private HashMap<Long, Ticker> tickers;
-	private HashMap<Timer, CallbackHandler> timerCallbackList;
-	private HashMap<Long, Timer> timers;
+	private final HashMap<Ticker, CallbackHandler> tickerCallbackList;
+	private final HashMap<Long, Ticker> tickers;
+	private final HashMap<Timer, CallbackHandler> timerCallbackList;
+	private final HashMap<Long, Timer> timers;
 	private long ticks;
 	private boolean useHackTicks;
 }
