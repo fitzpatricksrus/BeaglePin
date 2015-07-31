@@ -2,20 +2,20 @@ package us.cownet.timers;
 
 public class Ticker {
 	public Ticker(long periodTicksIn) {
-		periodMicros = periodTicksIn;
+		periodTicks = periodTicksIn;
 	}
 
 	public void setPeriod(long periodTicksIn) {
-		periodMicros = periodTicksIn;
+		periodTicks = periodTicksIn;
 	}
 
 	public long getPeriod() {
-		return periodMicros;
+		return periodTicks;
 	}
 
 	public boolean isTime() {
 		long now = TimerUtil.INSTANCE.currentTicks();
-		if (now - lastTick > periodMicros) {
+		if (now - lastTick > periodTicks) {
 			lastTick = now;
 			return true;
 		} else {
@@ -23,6 +23,6 @@ public class Ticker {
 		}
 	}
 
-	private long periodMicros;
+	private long periodTicks;
 	private long lastTick;
 }
