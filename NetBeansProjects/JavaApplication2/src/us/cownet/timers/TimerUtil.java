@@ -11,7 +11,7 @@ public class TimerUtil {
 		attachCallback(c, new Timer(micros));
 	}
 
-	public void attachCallback(Callback c, PeriodicEvent p) {
+	private void attachCallback(Callback c, PeriodicEvent p) {
 		callbackList.put(c, new CallbackHandler(c, p));
 	}
 
