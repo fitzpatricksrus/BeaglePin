@@ -1,6 +1,6 @@
 package us.cownet.timers;
 
-public class Timer {
+public class Timer implements PeriodicEvent {
 	public Timer(long periodMicrosIn) {
 		periodMicros = periodMicrosIn;
 	}

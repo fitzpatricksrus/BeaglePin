@@ -41,7 +41,7 @@ public class SimpleLampMatrix implements LampMatrix {
 			currentPattern = lamps;
 			TimerUtil.INSTANCE.attachTimerCallback(thisCallback, ticks);
 		} else if (currentPattern != null && nextPattern == null) {
-			TimerUtil.INSTANCE.detachTimerCallback(thisCallback);
+			TimerUtil.INSTANCE.detachCallback(thisCallback);
 			currentPattern = null;
 		}
 	}

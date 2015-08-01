@@ -1,6 +1,6 @@
 package us.cownet.timers;
 
-public class Ticker {
+public class Ticker implements PeriodicEvent {
 	public Ticker(long periodTicksIn) {
 		periodMicros = periodTicksIn;
 	}
