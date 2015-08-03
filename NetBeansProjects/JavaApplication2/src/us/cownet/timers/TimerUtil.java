@@ -1,61 +1,28 @@
 package us.cownet.timers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TimerUtil {
 	public void attachTickerCallback(Callback c, long ticks) {
-		Ticker ticker = tickers.get(ticks);
-		if (ticker == null) {
-			ticker = new Ticker(ticks);
-			tickers.put(ticks, ticker);
-			tickerCallbackList.put(ticker, new CallbackHandler());
-		}
-		CallbackHandler handler = tickerCallbackList.get(ticker);
-		handler.addCallback(c);
-	}
-
-	public void detachTickerCallback(Callback c) {
-		for (CallbackHandler handler : tickerCallbackList.values()) {
-			handler.removeCallback(c);
-			if (handler.isEmpty()) {
-				// hey jf - it might be nice to do garbage collection of empty lists here.
-			}
-		}
-
+		attachCallback(c, new Ticker(ticks));
 	}
 
 	public void attachTimerCallback(Callback c, long micros) {
-		Timer timer = timers.get(micros);
-		if (timer == null) {
-			timer = new Timer(micros);
-			timers.put(micros, timer);
-			timerCallbackList.put(timer, new CallbackHandler());
-		}
-		CallbackHandler handler = timerCallbackList.get(timer);
-		handler.addCallback(c);
+		attachCallback(c, new Timer(micros));
 	}
 
-	public void detachTimerCallback(Callback c) {
-		for (CallbackHandler handler : timerCallbackList.values()) {
-			handler.removeCallback(c);
-			if (handler.isEmpty()) {
-				// hey jf - it might be nice to do garbage collection of empty lists here.
-			}
-		}
+	private void attachCallback(Callback c, PeriodicEvent p) {
+		callbackList.put(c, new CallbackHandler(c, p));
+	}
+
+	public void detachCallback(Callback c) {
+		callbackList.put(c, null);
 	}
 
 	public void tick() {
 		ticks++;
-		for (Ticker ticker : tickerCallbackList.keySet()) {
-			if (ticker.isTime()) {
-				tickerCallbackList.get(ticker).invokeCallbacks();
-			}
-		}
-		for (Timer timer : timerCallbackList.keySet()) {
-			if (timer.isTime()) {
-				timerCallbackList.get(timer).invokeCallbacks();
-			}
+		for (CallbackHandler handler : callbackList.values()) {
+			handler.tick();
 		}
 	}
 
@@ -83,44 +50,28 @@ public class TimerUtil {
 	public static final long REAL_TICKS = -1;
 
 	private TimerUtil() {
-		tickers = new HashMap<>();
-		timers = new HashMap<>();
-		tickerCallbackList = new HashMap<>();
-		timerCallbackList = new HashMap<>();
+		callbackList = new HashMap<>();
 		ticks = 0;
 		useHackTicks = false;
 	}
 
 	private class CallbackHandler {
-		public CallbackHandler() {
-			callbacks = new ArrayList<>();
+		public CallbackHandler(Callback c, PeriodicEvent e) {
+			this.c = c;
+			this.e = e;
 		}
 
-		public void invokeCallbacks() {
-			for (Callback c : callbacks) {
+		public void tick() {
+			if (e.isTime()) {
 				c.call();
 			}
 		}
 
-		public void addCallback(Callback c) {
-			callbacks.add(c);
-		}
-
-		public void removeCallback(Callback c) {
-			callbacks.remove(c);
-		}
-
-		public boolean isEmpty() {
-			return callbacks.isEmpty();
-		}
-
-		private final ArrayList<Callback> callbacks;
+		public Callback c;
+		public PeriodicEvent e;
 	}
 
-	private final HashMap<Ticker, CallbackHandler> tickerCallbackList;
-	private final HashMap<Long, Ticker> tickers;
-	private final HashMap<Timer, CallbackHandler> timerCallbackList;
-	private final HashMap<Long, Timer> timers;
+	private HashMap<Callback, CallbackHandler> callbackList;
 	private long ticks;
 	private boolean useHackTicks;
 }
