@@ -21,6 +21,11 @@ public class SimpleLampPattern implements LampPattern {
 	}
 
 	@Override
+	public byte getColumn(int col) {
+		return pattern[col];
+	}
+
+	@Override
 	public boolean getLamp(int col, int row) {
 		return (pattern[col] & (1 << row)) != 0;
 	}
