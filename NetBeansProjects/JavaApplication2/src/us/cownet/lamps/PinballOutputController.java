@@ -13,10 +13,9 @@ public interface PinballOutputController {
 		//		SWITCH_ROW,
 		//		SWITCH_COL,
 		//		SWITCH_DEDICATED,
-		SIGNAL_COUNT
 	}
 
-	public static final int SIGNAL_COUNT = Register.SIGNAL_COUNT.ordinal();
+	public static final int SIGNAL_COUNT = Register.LAMP_COL.ordinal() + 1;
 
 	/* Write to the specified data input source */
 	public void write(Register signal, byte value);
