@@ -36,8 +36,6 @@ public class WpcOutputController implements PinballOutputController {
 //    private String pinName(int ndx) {
 //        return BBBNames.P8 + "_" + ndx;
 //    }
-	public static final int SIGNAL_COUNT = Register.SIGNAL_COUNT.ordinal();
-
 	private static final int MASK[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
 	/* Write to the specified data input source */
