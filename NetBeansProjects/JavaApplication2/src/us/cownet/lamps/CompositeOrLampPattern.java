@@ -1,7 +1,6 @@
 package us.cownet.lamps;
 
 import java.util.ArrayList;
-import us.cownet.lamps.simple.SimpleLampPattern;
 
 public class CompositeOrLampPattern implements LampPattern {
 	public CompositeOrLampPattern() {

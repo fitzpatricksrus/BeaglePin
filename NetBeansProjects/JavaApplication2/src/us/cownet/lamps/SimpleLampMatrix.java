@@ -1,4 +1,4 @@
-package us.cownet.lamps.simple;
+package us.cownet.lamps;
 
 import us.cownet.lamps.LampMatrix;
 import us.cownet.lamps.LampPattern;

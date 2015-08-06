@@ -1,7 +1,7 @@
 package us.cownet.lamps.tests;
 
 import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.simple.SimpleLampPattern;
+import us.cownet.lamps.SimpleLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 

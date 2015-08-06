@@ -1,16 +1,14 @@
-package us.cownet.lamps.simple.tests;
+package us.cownet.lamps.tests;
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.simple.SimpleGreyscaleLampMatrix;
-import us.cownet.lamps.simple.SimpleLampMatrix;
+import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.tests.GreyscaleLampMatrixTest;
 import us.cownet.testing.Test;
 
 public class SimpleGreyscaleLampMatrixTest implements Test {
 	public SimpleGreyscaleLampMatrixTest(PinballOutputController controller, long micros) {
 		matrix = new SimpleLampMatrix(controller, micros);
-		greyMatrix = new SimpleGreyscaleLampMatrix(matrix);
-		test = new GreyscaleLampMatrixTest(greyMatrix);
+		test = new GreyscaleLampMatrixTest(matrix);
 	}
 
 	@Override
@@ -24,6 +22,5 @@ public class SimpleGreyscaleLampMatrixTest implements Test {
 	}
 
 	private SimpleLampMatrix matrix;
-	private SimpleGreyscaleLampMatrix greyMatrix;
 	private GreyscaleLampMatrixTest test;
 }

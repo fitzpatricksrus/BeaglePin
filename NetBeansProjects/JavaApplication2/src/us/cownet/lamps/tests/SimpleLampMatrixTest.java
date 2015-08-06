@@ -1,7 +1,7 @@
-package us.cownet.lamps.simple.tests;
+package us.cownet.lamps.tests;
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.simple.SimpleLampMatrix;
+import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.tests.LampMatrixTest;
 import us.cownet.testing.Test;
 

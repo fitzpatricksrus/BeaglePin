@@ -1,10 +1,6 @@
-package us.cownet.lamps.simple;
-
-import us.cownet.lamps.LampPattern;
+package us.cownet.lamps;
 
 public class SimpleLampPattern implements LampPattern {
-	public static final SimpleLampPattern ALL_OFF = new SimpleLampPattern(new byte[0]);
-
 	private byte[] pattern;
 
 	public SimpleLampPattern(byte[] pattern) {
@@ -32,6 +28,7 @@ public class SimpleLampPattern implements LampPattern {
 		}
 	}
 
+	@Override
 	public int getColCount() {
 		return pattern.length;
 	}
