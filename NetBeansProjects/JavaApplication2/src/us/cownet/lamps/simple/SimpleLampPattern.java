@@ -11,7 +11,6 @@ public class SimpleLampPattern implements LampPattern {
 		this.pattern = pattern;
 	}
 
-	@Override
 	public byte[] getPattern() {
 		return pattern;
 	}

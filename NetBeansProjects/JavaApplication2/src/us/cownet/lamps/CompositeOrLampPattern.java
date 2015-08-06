@@ -21,11 +21,6 @@ public class CompositeOrLampPattern implements LampPattern {
 	}
 
 	@Override
-	public byte[] getPattern() {
-		return compositePattern.getPattern();
-	}
-
-	@Override
 	public byte getColumn(int col) {
 		return compositePattern.getColumn(col);
 	}
