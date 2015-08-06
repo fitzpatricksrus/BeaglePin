@@ -42,4 +42,16 @@ public class SimpleLampPattern implements LampPattern {
 		return pattern.length;
 	}
 
+	@Override
+	public void attached() {
+	}
+
+	@Override
+	public void sync() {
+	}
+
+	@Override
+	public void detached() {
+	}
+
 }

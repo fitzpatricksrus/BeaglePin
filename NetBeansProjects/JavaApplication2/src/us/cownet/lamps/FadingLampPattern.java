@@ -1,5 +1,9 @@
 package us.cownet.lamps;
 
+/*
+ Simply take the whole pattern and fade it up or down as a whole.  All lamps have the same
+ brightness.
+ */
 public class FadingLampPattern implements LampPattern {
 
 	@Override
@@ -7,7 +11,6 @@ public class FadingLampPattern implements LampPattern {
 	}
 
 	public void setPattern(LampPattern pattern) {
-
 	}
 
 	@Override
@@ -22,4 +25,15 @@ public class FadingLampPattern implements LampPattern {
 	public int getColCount() {
 	}
 
+	@Override
+	public void attached() {
+	}
+
+	@Override
+	public void sync() {
+	}
+
+	@Override
+	public void detached() {
+	}
 }

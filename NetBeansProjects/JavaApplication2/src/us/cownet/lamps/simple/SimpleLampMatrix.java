@@ -38,11 +38,18 @@ public class SimpleLampMatrix implements LampMatrix {
 	public void setPattern(LampPattern lamps) {
 		nextPattern = lamps;
 		if (currentPattern == null && nextPattern != null) {
+			// nothing was running and this is the first item
 			currentPattern = lamps;
+			currentPattern.attached();
 			TimerUtil.INSTANCE.attachTimerCallback(thisCallback, ticks);
 		} else if (currentPattern != null && nextPattern == null) {
+			// something is running, but we're turning it all off
 			TimerUtil.INSTANCE.detachCallback(thisCallback);
+			currentPattern.detached();
 			currentPattern = null;
+		} else {
+			// transitioning from one pattern to another is done in tock()
+			// do the transition is done cleanly
 		}
 	}
 
@@ -54,8 +61,14 @@ public class SimpleLampMatrix implements LampMatrix {
 		if (currentColumn == 0) {
 			if (callback != null) {
 				callback.call();
+				currentPattern.sync();
 			}
-			currentPattern = nextPattern;
+			if (currentPattern != nextPattern) {
+				// transition from one pattern to next on sync
+				currentPattern.detached();
+				currentPattern = nextPattern;
+				currentPattern.attached();
+			}
 		}
 	}
 
