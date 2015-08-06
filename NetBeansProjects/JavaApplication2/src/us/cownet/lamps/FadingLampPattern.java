@@ -29,11 +29,6 @@ public class FadingLampPattern implements LampPattern {
 	}
 
 	@Override
-	public boolean getLamp(int x, int y) {
-		return (getColumn(x) & (1 << y)) != 0;
-	}
-
-	@Override
 	public int getColCount() {
 		return sourcePattern.getColCount();
 	}

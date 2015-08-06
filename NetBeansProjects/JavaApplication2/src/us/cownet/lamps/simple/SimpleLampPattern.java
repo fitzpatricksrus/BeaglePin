@@ -24,11 +24,6 @@ public class SimpleLampPattern implements LampPattern {
 		return pattern[col];
 	}
 
-	@Override
-	public boolean getLamp(int col, int row) {
-		return (pattern[col] & (1 << row)) != 0;
-	}
-
 	public void setLamp(int col, int row, boolean on) {
 		if (on) {
 			pattern[col] |= (1 << row);
