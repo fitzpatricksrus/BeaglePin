@@ -12,8 +12,8 @@ public class LampMatrixTest implements Test {
 
 	private LampMatrix matrix;
 
-	private static byte patternValues[] = {
-		(byte)0b10000001,
+	private static int patternValues[] = {
+		0b10000001,
 		0b01000010,
 		0b00100100,
 		0b00011000,

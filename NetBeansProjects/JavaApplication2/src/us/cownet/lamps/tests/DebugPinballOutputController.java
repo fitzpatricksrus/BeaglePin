@@ -158,7 +158,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 					// turn the proper column back on
 					hardware.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << col));
 					try {
-						Thread.sleep(100, 000);
+//						Thread.sleep(100, 000);
 					} catch (Exception e) {
 					}
 					TimerUtil.INSTANCE.tick();

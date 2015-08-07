@@ -23,9 +23,11 @@ public class CowNetControllerV4 {
 			controller = new DebugPinballOutputController();
 		}
 
-		PinballOutputControllerTest pinballOutputControllerTest = new PinballOutputControllerTest(controller);
+		PinballOutputControllerTest pinballOutputControllerTest
+				= new PinballOutputControllerTest(controller);
 		SimpleLampMatrixTest simpleLampMatrixTest = new SimpleLampMatrixTest(controller, 50);
-		SimpleGreyscaleLampMatrixTest simpleGreyscaleLampMatrixTest = new SimpleGreyscaleLampMatrixTest(controller, 50L);
+		SimpleGreyscaleLampMatrixTest simpleGreyscaleLampMatrixTest
+				= new SimpleGreyscaleLampMatrixTest(controller, 50L);
 		//SimpleLampMatrixTest test(controller, 2000L * 1000L);
 
 		Test currentTest = simpleGreyscaleLampMatrixTest;

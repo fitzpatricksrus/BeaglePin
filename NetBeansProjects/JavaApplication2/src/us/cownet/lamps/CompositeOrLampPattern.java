@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class CompositeOrLampPattern implements LampPattern {
 	public CompositeOrLampPattern() {
 		patterns = new ArrayList<>();
-		compositePatternStorage = new byte[0];
+		compositePatternStorage = new int[0];
 		compositePattern = new SimpleLampPattern(compositePatternStorage);
 	}
 
@@ -41,7 +41,7 @@ public class CompositeOrLampPattern implements LampPattern {
 		}
 		if (colCount != compositePatternStorage.length) {
 			// only reallocate storage if we need to.
-			compositePatternStorage = new byte[colCount];	// already 0s.  It's Java
+			compositePatternStorage = new int[colCount];	// already 0s.  It's Java
 		}
 		for (LampPattern pattern : patterns) {
 			for (int i = 0; i < pattern.getColCount(); i++) {
@@ -64,6 +64,6 @@ public class CompositeOrLampPattern implements LampPattern {
 	}
 
 	private ArrayList<LampPattern> patterns;
-	private byte compositePatternStorage[];
+	private int compositePatternStorage[];
 	private SimpleLampPattern compositePattern;
 }

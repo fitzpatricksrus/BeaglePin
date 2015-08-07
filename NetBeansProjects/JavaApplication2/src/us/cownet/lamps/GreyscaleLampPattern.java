@@ -56,7 +56,7 @@ public class GreyscaleLampPattern implements LampPattern {
 	public final void setPattern(int[][] greyPattern) {
 		int colCount = greyPattern.length;
 		for (int i = 0; i < GREYSCALE_BITS; i++) {
-			patterns[i] = new SimpleLampPattern(new byte[colCount]);
+			patterns[i] = new SimpleLampPattern(new int[colCount]);
 //			System.out.println("Bit plane " + i);
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < 8; row++) {
@@ -87,7 +87,7 @@ public class GreyscaleLampPattern implements LampPattern {
 		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternData);
 
 		pattern.attached();
-		int iterations = 20;
+		int iterations = 129;
 		int result[][] = new int[32][8];
 		for (int i = 0; i < 255 * iterations; i++) {
 			for (int col = 0; col < 32; col++) {

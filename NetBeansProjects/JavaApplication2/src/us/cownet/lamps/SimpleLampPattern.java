@@ -1,23 +1,23 @@
 package us.cownet.lamps;
 
 public class SimpleLampPattern implements LampPattern {
-	private byte[] pattern;
+	private int[] pattern;
 
-	public SimpleLampPattern(byte[] pattern) {
+	public SimpleLampPattern(int[] pattern) {
 		this.pattern = pattern;
 	}
 
-	public byte[] getPattern() {
+	public int[] getPattern() {
 		return pattern;
 	}
 
-	public void setPattern(byte[] newPattern) {
+	public void setPattern(int[] newPattern) {
 		pattern = newPattern;
 	}
 
 	@Override
 	public byte getColumn(int col) {
-		return pattern[col];
+		return (byte)pattern[col];
 	}
 
 	public void setLamp(int col, int row, boolean on) {
