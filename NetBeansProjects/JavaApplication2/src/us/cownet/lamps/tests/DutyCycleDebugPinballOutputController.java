@@ -26,13 +26,13 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	public DutyCycleDebugPinballOutputController(int cols, int rows) {
 		this.colCount = cols;
 		this.rowCount = rows;
-		dutyCycleSampleSize = cols * 256;
+		dutyCycleSampleSize = cols * 1024;
 		dutyCycle = new DutyCycleCalculator[cols][rows];
 		mask = new int[Math.max(rows, cols)];
 
 		for (int col = 0; col < cols; col++) {
 			for (int row = 0; row < rows; row++) {
-				dutyCycle[col][row] = new DutyCycleCalculator(dutyCycleSampleSize/*, cols*/);
+				dutyCycle[col][row] = new DutyCycleCalculator(dutyCycleSampleSize, cols);
 			}
 		}
 
@@ -123,12 +123,7 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 			createBufferStrategy(2);
 			strategy = getBufferStrategy();
 
-			Graphics2D g = (Graphics2D)strategy.getDrawGraphics();
-			for (int col = 0; col < colCount; col++) {
-				drawColumn(g, col, 0);
-			}
-			g.dispose();
-			strategy.show();
+			updateDisplay();
 
 			Thread t = new Thread() {
 				@Override
@@ -150,19 +145,12 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 		public void updateDisplay() {
 			Graphics2D g = (Graphics2D)strategy.getDrawGraphics();
 			for (int col = 0; col < colCount; col++) {
-				drawColumn(g, col, 0);
+				for (int row = 0; row < rowCount; row++) {
+					drawLamp(g, col, row, (currentRows & mask[row]) != 0);
+				}
 			}
 			g.dispose();
 			strategy.show();
-		}
-
-		private void drawColumn(Graphics2D g2d, int col, int rows) {
-			if (col == -1) {
-				return;
-			}
-			for (int row = 0; row < rows; row++) {
-				drawLamp(g2d, col, row, (rows & mask[row]) != 0);
-			}
 		}
 
 		private void drawLamp(Graphics2D g2d, int col, int row, boolean on) {

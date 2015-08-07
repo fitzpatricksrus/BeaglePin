@@ -15,22 +15,22 @@ public class DutyCycleCalculator {
 		scale = 1;
 	}
 
-	public void addSample(boolean isOn) {
+	public synchronized void addSample(boolean isOn) {
 		nextSample();
 		setSample(isOn);
 	}
 
-	public void nextSample() {
+	public synchronized void nextSample() {
 		sampleIndex = (sampleIndex + 1) % samples.length;
 	}
 
-	public void setSample(boolean isOn) {
+	public synchronized void setSample(boolean isOn) {
 		sampleTotal -= samples[sampleIndex];
 		samples[sampleIndex] = isOn ? 1 : 0;
 		sampleTotal += samples[sampleIndex];
 	}
 
-	public double getDutyCycle() {
+	public synchronized double getDutyCycle() {
 		double result = sampleTotal / samples.length * scale;
 		result *= 1000;
 		result = Math.floor(result);

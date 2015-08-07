@@ -1,6 +1,6 @@
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.tests.DebugPinballOutputController;
+import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
 import us.cownet.lamps.tests.PinballOutputControllerTest;
 import us.cownet.lamps.tests.SimpleGreyscaleLampMatrixTest;
 import us.cownet.lamps.tests.SimpleLampMatrixTest;
@@ -20,7 +20,8 @@ public class CowNetControllerV4 {
 					new String[]{"P8_45", "P8_46"}
 			);
 		} else {
-			controller = new DebugPinballOutputController();
+//			controller = new DebugPinballOutputController();
+			controller = new DutyCycleDebugPinballOutputController(8, 8);
 		}
 
 		PinballOutputControllerTest pinballOutputControllerTest
