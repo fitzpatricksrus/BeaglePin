@@ -61,7 +61,7 @@ public class DebugPinballOutputController extends Canvas implements PinballOutpu
 						DOT_SIZE,
 						DOT_SIZE);
 				squares[col][row].grow(-1, -1);
-				dutyCycle[col][row] = new DutyCycleCalculator(DUTY_CYCLE_SAMPLE_SIZE, COLS);
+				dutyCycle[col][row] = new DutyCycleCalculator(DUTY_CYCLE_SAMPLE_SIZE/*, COLS*/);
 			}
 		}
 		for (int row = 0; row < ROWS; row++) {

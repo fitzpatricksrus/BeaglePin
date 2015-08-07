@@ -13,9 +13,10 @@ public class GreyscaleLampMatrixTest implements Test {
 	private LampMatrix greyLampMatrix;
 
 	private static final int patternValues[][] = {
-		{127, 127, 127, 127, 127, 127, 127, 127},
-		{127, 127, 127, 127, 127, 127, 127, 127},
-		{127, 127, 127, 127, 127, 127, 127, 127},
+		{63, 63, 63, 63, 63, 63, 63, 63},
+		{63, 63, 63, 63, 63, 63, 63, 63},
+		{63, 63, 63, 63, 63, 63, 63, 63},
+		{63, 63, 63, 63, 63, 63, 63, 63},
 		{127, 127, 127, 127, 127, 127, 127, 127},
 		{127, 127, 127, 127, 127, 127, 127, 127},
 		{127, 127, 127, 127, 127, 127, 127, 127},
@@ -31,10 +32,9 @@ public class GreyscaleLampMatrixTest implements Test {
 		{240, 245, 250, 251, 252, 253, 254, 255}
 	};
 
-	private static final GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues);
-
 	@Override
 	public void setup() {
+		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues);
 		greyLampMatrix.setPattern(pattern);
 	}
 

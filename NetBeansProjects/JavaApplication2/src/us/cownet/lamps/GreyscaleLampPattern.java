@@ -57,16 +57,16 @@ public class GreyscaleLampPattern implements LampPattern {
 		int colCount = greyPattern.length;
 		for (int i = 0; i < GREYSCALE_BITS; i++) {
 			patterns[i] = new SimpleLampPattern(new int[colCount]);
-//			System.out.println("Bit plane " + i);
+			System.out.println("Bit plane " + i);
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < 8; row++) {
 					boolean isOn = (greyPattern[col][row] & MASK[i]) != 0;
 					patterns[i].setLamp(col, row, isOn);
-//					System.out.print(isOn ? "1" : "0");
+					System.out.print(isOn ? "1" : "0");
 				}
-//				System.out.println();
+				System.out.println();
 			}
-//			System.out.println();
+			System.out.println();
 		}
 	}
 
@@ -75,7 +75,40 @@ public class GreyscaleLampPattern implements LampPattern {
 
 	public static void main(String args[]) {
 		System.out.println(">Testing GreyscaleLampPattern");
+		int iterations = 129;
 
+		final int patternValues[][] = {
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},
+			{127, 127, 127, 127, 127, 127, 127, 127},};
+		int result[][] = new int[8][8];
+
+		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues);
+		pattern.attached();
+		for (int i = 0; i < 255 * iterations; i++) {
+			for (int col = 0; col < 8; col++) {
+				for (int row = 0; row < 8; row++) {
+					if (pattern.getLamp(col, row)) {
+						result[col][row]++;
+					}
+				}
+			}
+			pattern.sync();
+		}
+		for (int col = 0; col < 8; col++) {
+			for (int row = 0; row < 8; row++) {
+				if (result[col][row] != 127 * iterations) {
+					System.out.println("Uh oh");
+				}
+			}
+		}
+
+		result = new int[32][8];
 		int patternData[][] = new int[32][8];
 		int value = 0;
 		for (int col = 0; col < 32; col++) {
@@ -84,11 +117,9 @@ public class GreyscaleLampPattern implements LampPattern {
 			}
 		}
 
-		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternData);
+		pattern = new GreyscaleLampPattern(patternData);
 
 		pattern.attached();
-		int iterations = 129;
-		int result[][] = new int[32][8];
 		for (int i = 0; i < 255 * iterations; i++) {
 			for (int col = 0; col < 32; col++) {
 				for (int row = 0; row < 8; row++) {
