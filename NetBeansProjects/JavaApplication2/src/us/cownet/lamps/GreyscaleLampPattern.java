@@ -19,7 +19,7 @@ public class GreyscaleLampPattern implements LampPattern {
 			}
 		}
 		INDEX[next++] = GREYSCALE_BITS - 1;
-//		System.out.println();
+		System.out.println();
 	}
 
 	public GreyscaleLampPattern() {
@@ -57,16 +57,16 @@ public class GreyscaleLampPattern implements LampPattern {
 		int colCount = greyPattern.length;
 		for (int i = 0; i < GREYSCALE_BITS; i++) {
 			patterns[i] = new SimpleLampPattern(new byte[colCount]);
-			System.out.println("Bit plane " + i);
+//			System.out.println("Bit plane " + i);
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < 8; row++) {
 					boolean isOn = (greyPattern[col][row] & MASK[i]) != 0;
 					patterns[i].setLamp(col, row, isOn);
-					System.out.print(isOn ? "1" : "0");
+//					System.out.print(isOn ? "1" : "0");
 				}
-				System.out.println();
+//				System.out.println();
 			}
-			System.out.println();
+//			System.out.println();
 		}
 	}
 
@@ -74,6 +74,8 @@ public class GreyscaleLampPattern implements LampPattern {
 	private final SimpleLampPattern patterns[] = new SimpleLampPattern[GREYSCALE_BITS];
 
 	public static void main(String args[]) {
+		System.out.println(">Testing GreyscaleLampPattern");
+
 		int patternData[][] = new int[32][8];
 		int value = 0;
 		for (int col = 0; col < 32; col++) {
@@ -83,10 +85,11 @@ public class GreyscaleLampPattern implements LampPattern {
 		}
 
 		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternData);
-		pattern.attached();
 
+		pattern.attached();
+		int iterations = 20;
 		int result[][] = new int[32][8];
-		for (int i = 0; i < 256; i++) {
+		for (int i = 0; i < 255 * iterations; i++) {
 			for (int col = 0; col < 32; col++) {
 				for (int row = 0; row < 8; row++) {
 					if (pattern.getLamp(col, row)) {
@@ -100,12 +103,13 @@ public class GreyscaleLampPattern implements LampPattern {
 		value = 0;
 		for (int col = 0; col < 32; col++) {
 			for (int row = 0; row < 8; row++) {
-				if (result[col][row] != value) {
+				if (result[col][row] != value * iterations) {
 					System.out.println("result[" + col + "][" + row + "] was "
-							+ result[col][row] + " instead of " + value);
+							+ result[col][row] + " instead of " + value * iterations);
 				}
 				value++;
 			}
 		}
+		System.out.println("<Testing GreyscaleLampPattern");
 	}
 }
