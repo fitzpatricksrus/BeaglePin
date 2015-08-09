@@ -1,26 +1,8 @@
 package us.cownet.lamps;
 
+import java.util.Arrays;
+
 public class GreyscaleLampPattern implements LampPattern {
-
-	private static final int GREYSCALE_BITS = 8;
-	private static final int GREYSCALE_STAGES = (1 << GREYSCALE_BITS);
-
-	//{0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
-	private static final int MASK[] = new int[GREYSCALE_BITS];		//8
-	private static final int INDEX[] = new int[GREYSCALE_STAGES];	//256
-
-	static {
-		int next = 0;
-		for (int i = 0; i < GREYSCALE_BITS; i++) {
-			MASK[i] = 1 << i;
-//			System.out.println(MASK[i]);
-			for (int j = 0; j < MASK[i]; j++) {
-				INDEX[next++] = i;
-			}
-		}
-		INDEX[next++] = GREYSCALE_BITS - 1;
-		System.out.println();
-	}
 
 	public GreyscaleLampPattern() {
 	}
@@ -29,9 +11,13 @@ public class GreyscaleLampPattern implements LampPattern {
 		setPattern(greyPattern);
 	}
 
+	public GreyscaleLampPattern(int[][] greyPattern, int grayscaleBits) {
+		setPattern(greyPattern, grayscaleBits);
+	}
+
 	@Override
 	public byte getColumn(int x) {
-		return patterns[INDEX[cycleCount]].getColumn(x);
+		return patterns[index[cycleCount]].getColumn(x);
 	}
 
 	@Override
@@ -46,7 +32,7 @@ public class GreyscaleLampPattern implements LampPattern {
 
 	@Override
 	public void sync() {
-		cycleCount = (cycleCount + 1) % GREYSCALE_STAGES;
+		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
 	}
 
 	@Override
@@ -54,13 +40,36 @@ public class GreyscaleLampPattern implements LampPattern {
 	}
 
 	public final void setPattern(int[][] greyPattern) {
+		setPattern(greyPattern, 8);
+	}
+
+	public final void setPattern(int[][] greyPattern, int grayscaleBits) {
+		this.grayscaleBits = grayscaleBits;
+		greyscaleCycleSize = (1 << grayscaleBits) - 1;
+		mask = new int[grayscaleBits];
+		index = new int[greyscaleCycleSize];
+		patterns = new SimpleLampPattern[grayscaleBits];
+
+		int next = 0;
+		for (int i = 0; i < grayscaleBits; i++) {
+			mask[i] = 1 << i;
+//			System.out.println(MASK[i]);
+			for (int j = 0; j < mask[i]; j++) {
+				index[next++] = i;
+			}
+		}
+//		index[next++] = grayscaleBits - 1;
+		System.out.println("mask: " + Arrays.toString(mask));
+		System.out.println("index: " + Arrays.toString(index));
+
 		int colCount = greyPattern.length;
-		for (int i = 0; i < GREYSCALE_BITS; i++) {
+		int rowCount = greyPattern[0].length;
+		for (int i = 0; i < grayscaleBits; i++) {
 			patterns[i] = new SimpleLampPattern(new int[colCount]);
 			System.out.println("Bit plane " + i);
 			for (int col = 0; col < colCount; col++) {
-				for (int row = 0; row < 8; row++) {
-					boolean isOn = (greyPattern[col][row] & MASK[i]) != 0;
+				for (int row = 0; row < rowCount; row++) {
+					boolean isOn = (greyPattern[col][row] & mask[i]) != 0;
 					patterns[i].setLamp(col, row, isOn);
 					System.out.print(isOn ? "1" : "0");
 				}
@@ -70,29 +79,33 @@ public class GreyscaleLampPattern implements LampPattern {
 		}
 	}
 
+	// position in the refresh cycle
 	private int cycleCount;
-	private final SimpleLampPattern patterns[] = new SimpleLampPattern[GREYSCALE_BITS];
+	// how many bits of greyscale resolution
+	private int grayscaleBits;
+	// component lamp patters.  one for each greyscale bit
+	private SimpleLampPattern patterns[];
+	// how many ticks in greyscale cycle
+	private int greyscaleCycleSize;
+	// mask for each bit in the cycle
+	private int mask[];
+	// which pattern to use for each stage in the cycle
+	private int index[];
 
 	public static void main(String args[]) {
 		System.out.println(">Testing GreyscaleLampPattern");
-		int iterations = 129;
 
 		final int patternValues[][] = {
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},
-			{127, 127, 127, 127, 127, 127, 127, 127},};
-		int result[][] = new int[8][8];
+			{1, 2, 4},};
+		int colCount = patternValues.length;
+		int rowCount = patternValues[0].length;
+		int result[][] = new int[colCount][rowCount];
 
-		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues);
+		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues, 3);
 		pattern.attached();
-		for (int i = 0; i < 255 * iterations; i++) {
-			for (int col = 0; col < 8; col++) {
-				for (int row = 0; row < 8; row++) {
+		for (int i = 0; i < 21; i++) {
+			for (int col = 0; col < colCount; col++) {
+				for (int row = 0; row < rowCount; row++) {
 					if (pattern.getLamp(col, row)) {
 						result[col][row]++;
 					}
@@ -100,47 +113,12 @@ public class GreyscaleLampPattern implements LampPattern {
 			}
 			pattern.sync();
 		}
-		for (int col = 0; col < 8; col++) {
-			for (int row = 0; row < 8; row++) {
-				if (result[col][row] != 127 * iterations) {
-					System.out.println("Uh oh");
-				}
+		for (int col = 0; col < colCount; col++) {
+			for (int row = 0; row < rowCount; row++) {
+				System.out.println("" + col + "," + row + "  " + result[col][row]);
 			}
 		}
 
-		result = new int[32][8];
-		int patternData[][] = new int[32][8];
-		int value = 0;
-		for (int col = 0; col < 32; col++) {
-			for (int row = 0; row < 8; row++) {
-				patternData[col][row] = value++;
-			}
-		}
-
-		pattern = new GreyscaleLampPattern(patternData);
-
-		pattern.attached();
-		for (int i = 0; i < 255 * iterations; i++) {
-			for (int col = 0; col < 32; col++) {
-				for (int row = 0; row < 8; row++) {
-					if (pattern.getLamp(col, row)) {
-						result[col][row]++;
-					}
-				}
-			}
-			pattern.sync();
-		}
-
-		value = 0;
-		for (int col = 0; col < 32; col++) {
-			for (int row = 0; row < 8; row++) {
-				if (result[col][row] != value * iterations) {
-					System.out.println("result[" + col + "][" + row + "] was "
-							+ result[col][row] + " instead of " + value * iterations);
-				}
-				value++;
-			}
-		}
 		System.out.println("<Testing GreyscaleLampPattern");
 	}
 }
