@@ -61,7 +61,7 @@ public class SimpleLampMatrix implements LampMatrix {
 		if (currentColumn == 0) {
 			if (callback != null) {
 				callback.call();
-				currentPattern.sync();
+				currentPattern.endOfMatrixSync();
 			}
 			if (currentPattern != nextPattern) {
 				// transition from one pattern to next on sync

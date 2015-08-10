@@ -1,5 +1,7 @@
 package us.cownet.lamps.tests;
 
+import java.util.Arrays;
+
 public class DutyCycleCalculator {
 	public DutyCycleCalculator(int sampleSize, int scale) {
 		samples = new int[sampleSize];
@@ -16,8 +18,8 @@ public class DutyCycleCalculator {
 	}
 
 	public synchronized void addSample(boolean isOn) {
-		nextSample();
 		setSample(isOn);
+		nextSample();
 	}
 
 	public synchronized void nextSample() {
@@ -51,39 +53,40 @@ public class DutyCycleCalculator {
 		DutyCycleCalculator dcc = new DutyCycleCalculator(10);
 		for (int i = 0; i < 15; i++) {
 			dcc.addSample(true);
+			System.out.println(">" + dcc + Arrays.toString(dcc.samples));
 		}
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 		dcc.addSample(false);
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 
 		dcc = new DutyCycleCalculator(10);
 		for (int i = 0; i < 10; i++) {
 			dcc.addSample(false);
 		}
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 
 		dcc = new DutyCycleCalculator(10);
 		for (int i = 0; i < 5; i++) {
 			dcc.addSample(true);
 		}
-		System.out.println(dcc);
+		System.out.println(dcc + Arrays.toString(dcc.samples));
 	}
 }

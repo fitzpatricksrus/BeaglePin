@@ -38,7 +38,11 @@ public class SimpleLampPattern implements LampPattern {
 	}
 
 	@Override
-	public void sync() {
+	public void endOfColumnSync() {
+	}
+
+	@Override
+	public void endOfMatrixSync() {
 	}
 
 	@Override

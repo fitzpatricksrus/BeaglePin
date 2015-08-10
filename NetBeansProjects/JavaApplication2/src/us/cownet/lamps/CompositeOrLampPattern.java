@@ -56,7 +56,11 @@ public class CompositeOrLampPattern implements LampPattern {
 	}
 
 	@Override
-	public void sync() {
+	public void endOfColumnSync() {
+	}
+
+	@Override
+	public void endOfMatrixSync() {
 	}
 
 	@Override

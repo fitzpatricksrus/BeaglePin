@@ -31,7 +31,12 @@ public class GreyscaleLampPattern implements LampPattern {
 	}
 
 	@Override
-	public void sync() {
+	public void endOfColumnSync() {
+		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
+	}
+
+	@Override
+	public void endOfMatrixSync() {
 		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
 	}
 
@@ -96,14 +101,14 @@ public class GreyscaleLampPattern implements LampPattern {
 		System.out.println(">Testing GreyscaleLampPattern");
 
 		final int patternValues[][] = {
-			{1, 2, 4},};
+			{1, 2, 4, 8},};
 		int colCount = patternValues.length;
 		int rowCount = patternValues[0].length;
 		int result[][] = new int[colCount][rowCount];
 
-		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues, 3);
+		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues, 4);
 		pattern.attached();
-		for (int i = 0; i < 21; i++) {
+		for (int i = 0; i < 30; i++) {
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < rowCount; row++) {
 					if (pattern.getLamp(col, row)) {
@@ -111,7 +116,7 @@ public class GreyscaleLampPattern implements LampPattern {
 					}
 				}
 			}
-			pattern.sync();
+			pattern.endOfMatrixSync();
 		}
 		for (int col = 0; col < colCount; col++) {
 			for (int row = 0; row < rowCount; row++) {

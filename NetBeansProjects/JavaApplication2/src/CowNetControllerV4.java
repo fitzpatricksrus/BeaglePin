@@ -21,7 +21,7 @@ public class CowNetControllerV4 {
 			);
 		} else {
 //			controller = new DebugPinballOutputController();
-			controller = new DutyCycleDebugPinballOutputController(8, 8);
+			controller = new DutyCycleDebugPinballOutputController(2, 8);
 		}
 
 		PinballOutputControllerTest pinballOutputControllerTest
@@ -31,7 +31,7 @@ public class CowNetControllerV4 {
 				= new SimpleGreyscaleLampMatrixTest(controller, 50L);
 		//SimpleLampMatrixTest test(controller, 2000L * 1000L);
 
-		Test currentTest = simpleGreyscaleLampMatrixTest;
+		Test currentTest = simpleLampMatrixTest;
 
 		long count = 0;
 		System.out.println("setup()");
@@ -39,13 +39,11 @@ public class CowNetControllerV4 {
 
 //		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
-		long t = System.currentTimeMillis();
 		while (true) {
 			currentTest.loop();
 			count++;
 			if (ticks.isTime()) {
 				System.out.println("Frequency: " + count);
-				t = System.currentTimeMillis();
 				count = 0;
 			}
 			try {
