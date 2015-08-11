@@ -13,7 +13,16 @@ public class GreyscaleLampMatrixTest implements Test {
 	private LampMatrix greyLampMatrix;
 
 	private static final int patternValues[][] = {
-		{0, 1, 3, 7, 15, 31, 64, 127}
+		{
+			1 << 0,
+			1 << 1,
+			1 << 2,
+			1 << 3,
+			1 << 4,
+			1 << 5,
+			1 << 6,
+			1 << 7
+		}
 	};
 	private static final int patternValues2[][] = {
 		{0, 1, 3, 7, 15, 31, 63, 127},

@@ -101,14 +101,24 @@ public class GreyscaleLampPattern implements LampPattern {
 		System.out.println(">Testing GreyscaleLampPattern");
 
 		final int patternValues[][] = {
-			{1, 2, 4, 8},};
+			{
+				1 << 0,
+				1 << 1,
+				1 << 2,
+				1 << 3,
+				1 << 4,
+				1 << 5,
+				1 << 6,
+				1 << 7
+			}
+		};
 		int colCount = patternValues.length;
 		int rowCount = patternValues[0].length;
 		int result[][] = new int[colCount][rowCount];
 
-		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues, 4);
+		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues, 8);
 		pattern.attached();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 255; i++) {
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < rowCount; row++) {
 					if (pattern.getLamp(col, row)) {
