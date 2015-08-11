@@ -21,7 +21,7 @@ public class CowNetControllerV4 {
 			);
 		} else {
 //			controller = new DebugPinballOutputController();
-			controller = new DutyCycleDebugPinballOutputController(8, 8);
+			controller = new DutyCycleDebugPinballOutputController(1, 8);
 		}
 
 		PinballOutputControllerTest pinballOutputControllerTest
@@ -31,7 +31,7 @@ public class CowNetControllerV4 {
 				= new SimpleGreyscaleLampMatrixTest(controller, 50L);
 		//SimpleLampMatrixTest test(controller, 2000L * 1000L);
 
-		Test currentTest = simpleLampMatrixTest;
+		Test currentTest = simpleGreyscaleLampMatrixTest;
 
 		long count = 0;
 		System.out.println("setup()");

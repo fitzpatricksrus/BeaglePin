@@ -13,15 +13,13 @@ public class LampMatrixTest implements Test {
 	private LampMatrix matrix;
 
 	private static final int patternValues[] = {
-		0b10000001,
-		0b01000010,
-		0b00100100,
-		0b00011000,
-		0b00001000,
-		0b00010100,
-		0b00100010,
-		0b01000001
-	};
+		0b10000001, /*		0b01000010,
+	 0b00100100,
+	 0b00011000,
+	 0b00001000,
+	 0b00010100,
+	 0b00100010,
+	 0b01000001 */};
 
 	private static final SimpleLampPattern pattern = new SimpleLampPattern(patternValues);
 
