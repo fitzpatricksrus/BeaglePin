@@ -1,8 +1,5 @@
 package us.cownet.lamps;
 
-import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.LampPattern;
-import us.cownet.lamps.PinballOutputController;
 import us.cownet.timers.Callback;
 import us.cownet.timers.TimerUtil;
 
@@ -41,7 +38,7 @@ public class SimpleLampMatrix implements LampMatrix {
 			// nothing was running and this is the first item
 			currentPattern = lamps;
 			currentPattern.attached();
-			TimerUtil.INSTANCE.attachTimerCallback(thisCallback, ticks);
+			TimerUtil.INSTANCE.attachTickerCallback(thisCallback, ticks);
 		} else if (currentPattern != null && nextPattern == null) {
 			// something is running, but we're turning it all off
 			TimerUtil.INSTANCE.detachCallback(thisCallback);
