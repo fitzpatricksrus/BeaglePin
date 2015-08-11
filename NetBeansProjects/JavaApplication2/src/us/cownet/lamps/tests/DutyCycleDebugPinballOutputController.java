@@ -1,6 +1,12 @@
 package us.cownet.lamps.tests;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,7 +26,7 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	public DutyCycleDebugPinballOutputController(int cols, int rows) {
 		this.colCount = cols;
 		this.rowCount = rows;
-		dutyCycleSampleSize = cols * 255 * 4;
+		dutyCycleSampleSize = cols * 255 * 128;
 		dutyCycle = new DutyCycleCalculator[cols][rows];
 		mask = new int[Math.max(rows, cols)];
 
