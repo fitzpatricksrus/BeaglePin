@@ -31,14 +31,8 @@ public class GreyscaleLampPattern implements LampPattern {
 	}
 
 	@Override
-	public void endOfColumnSync() {
-		// hey jf - why does this happen here?   Why does it work?
-		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
-	}
-
-	@Override
 	public void endOfMatrixSync() {
-//		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
+		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
 	}
 
 	public final void setPattern(int[][] greyPattern) {
@@ -99,14 +93,14 @@ public class GreyscaleLampPattern implements LampPattern {
 
 		final int patternValues[][] = {
 			{
+				1 << 7,
+				1 << 6,
+				1 << 5,
+				1 << 4,
 				1 << 0,
 				1 << 1,
 				1 << 2,
-				1 << 3,
-				1 << 4,
-				1 << 5,
-				1 << 6,
-				1 << 7
+				1 << 3
 			}
 		};
 		int colCount = patternValues.length;
