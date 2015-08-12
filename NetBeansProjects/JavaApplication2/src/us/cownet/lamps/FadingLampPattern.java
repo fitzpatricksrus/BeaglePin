@@ -8,7 +8,8 @@ public class FadingLampPattern implements LampPattern {
 
 	public enum FadeDirection {
 		FADE_TO_BLACK,
-		FADE_TO_WHITE
+		FADE_TO_WHITE,
+		BOUNCE
 	};
 
 	public void setPattern(LampPattern pattern, FadeDirection direction, int speed) {
