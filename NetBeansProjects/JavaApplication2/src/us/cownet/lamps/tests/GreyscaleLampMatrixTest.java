@@ -10,9 +10,9 @@ public class GreyscaleLampMatrixTest implements Test {
 		this.greyLampMatrix = greyMatrix;
 	}
 
-	private LampMatrix greyLampMatrix;
+	private final LampMatrix greyLampMatrix;
 
-	private static final int patternValues[][] = {
+	private static final int patternValues2[][] = {
 		{
 			1 << 0,
 			1 << 1,
@@ -24,7 +24,7 @@ public class GreyscaleLampMatrixTest implements Test {
 			1 << 7
 		}
 	};
-	private static final int patternValues2[][] = {
+	private static final int patternValues[][] = {
 		{0, 1, 3, 7, 15, 31, 63, 127},
 		{0, 5, 10, 15, 20, 25, 30, 35},
 		{40, 45, 50, 55, 60, 65, 70, 75},

@@ -26,7 +26,7 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	public DutyCycleDebugPinballOutputController(int cols, int rows) {
 		this.colCount = cols;
 		this.rowCount = rows;
-		dutyCycleSampleSize = cols * 255 * 128;
+		dutyCycleSampleSize = cols * 255 * 1024;
 		dutyCycle = new DutyCycleCalculator[cols][rows];
 		mask = new int[Math.max(rows, cols)];
 

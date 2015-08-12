@@ -21,7 +21,7 @@ public class CowNetControllerV4 {
 			);
 		} else {
 //			controller = new DebugPinballOutputController();
-			controller = new DutyCycleDebugPinballOutputController(1, 8);
+			controller = new DutyCycleDebugPinballOutputController(8, 8);
 		}
 
 		PinballOutputControllerTest pinballOutputControllerTest

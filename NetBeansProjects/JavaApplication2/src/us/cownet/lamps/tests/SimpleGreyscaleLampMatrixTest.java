@@ -2,7 +2,6 @@ package us.cownet.lamps.tests;
 
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.tests.GreyscaleLampMatrixTest;
 import us.cownet.testing.Test;
 
 public class SimpleGreyscaleLampMatrixTest implements Test {
@@ -21,6 +20,6 @@ public class SimpleGreyscaleLampMatrixTest implements Test {
 		test.loop();
 	}
 
-	private SimpleLampMatrix matrix;
-	private GreyscaleLampMatrixTest test;
+	private final SimpleLampMatrix matrix;
+	private final GreyscaleLampMatrixTest test;
 }
