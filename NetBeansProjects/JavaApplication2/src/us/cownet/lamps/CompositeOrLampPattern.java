@@ -51,22 +51,6 @@ public class CompositeOrLampPattern implements LampPattern {
 		compositePattern.setPattern(compositePatternStorage);
 	}
 
-	@Override
-	public void attached() {
-	}
-
-	@Override
-	public void endOfColumnSync() {
-	}
-
-	@Override
-	public void endOfMatrixSync() {
-	}
-
-	@Override
-	public void detached() {
-	}
-
 	private ArrayList<LampPattern> patterns;
 	private int compositePatternStorage[];
 	private SimpleLampPattern compositePattern;

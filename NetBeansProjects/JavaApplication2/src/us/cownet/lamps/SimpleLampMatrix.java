@@ -54,8 +54,8 @@ public class SimpleLampMatrix implements LampMatrix {
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)0);
 		controller.write(PinballOutputController.Register.LAMP_ROW, currentPattern.getColumn(currentColumn));
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << currentColumn));
-		currentColumn = (currentColumn + 1) % currentPattern.getColCount();
 		currentPattern.endOfColumnSync();
+		currentColumn = (currentColumn + 1) % currentPattern.getColCount();
 		if (currentColumn == 0) {
 			if (callback != null) {
 				callback.call();

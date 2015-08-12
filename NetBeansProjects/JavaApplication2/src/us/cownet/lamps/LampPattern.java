@@ -3,17 +3,21 @@ package us.cownet.lamps;
 public interface LampPattern {
 	public byte getColumn(int x);
 
+	public int getColCount();
+
 	public default boolean getLamp(int x, int y) {
 		return (getColumn(x) & (1 << y)) != 0;
 	}
 
-	public int getColCount();
+	public default void attached() {
+	}
 
-	public void attached();
+	public default void endOfColumnSync() {
+	}
 
-	public void endOfColumnSync();
+	public default void endOfMatrixSync() {
+	}
 
-	public void endOfMatrixSync();
-
-	public void detached();
+	public default void detached() {
+	}
 }

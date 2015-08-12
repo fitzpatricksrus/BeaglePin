@@ -32,16 +32,13 @@ public class GreyscaleLampPattern implements LampPattern {
 
 	@Override
 	public void endOfColumnSync() {
+		// hey jf - why does this happen here?   Why does it work?
 		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
 	}
 
 	@Override
 	public void endOfMatrixSync() {
-		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
-	}
-
-	@Override
-	public void detached() {
+//		cycleCount = (cycleCount + 1) % (greyscaleCycleSize);
 	}
 
 	public final void setPattern(int[][] greyPattern) {
@@ -125,9 +122,11 @@ public class GreyscaleLampPattern implements LampPattern {
 						result[col][row]++;
 					}
 				}
+				pattern.endOfColumnSync();
 			}
 			pattern.endOfMatrixSync();
 		}
+		pattern.detached();
 		for (int col = 0; col < colCount; col++) {
 			for (int row = 0; row < rowCount; row++) {
 				System.out.println("" + col + "," + row + "  " + result[col][row]);

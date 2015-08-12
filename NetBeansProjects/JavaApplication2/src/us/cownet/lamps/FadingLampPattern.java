@@ -40,19 +40,11 @@ public class FadingLampPattern implements LampPattern {
 	}
 
 	@Override
-	public void endOfColumnSync() {
-	}
-
-	@Override
 	public void endOfMatrixSync() {
 		currentValue = (currentValue + 1) % fadeSpeed;
 		if (currentValue == 0) {
 			transitionValue = Math.min(transitionValue - 1, 0);
 		}
-	}
-
-	@Override
-	public void detached() {
 	}
 
 	private LampPattern sourcePattern;
