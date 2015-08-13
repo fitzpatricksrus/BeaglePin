@@ -1,10 +1,15 @@
 package us.cownet.lamps;
 
-public class TemporaryLampPattern implements LampPattern {
-	public TemporaryLampPattern(LampPattern sourcePattern, int duration, boolean tempOn) {
-		this.sourcePattern = sourcePattern;
+/*
+ A one shot deal.  Start either on or off, stay that way for some duration, and
+ then change state.  Done.  Only the lamps that are in in the source are affected.
+ It's just delay and invert.
+ */
+public class TemporaryLampPattern extends ContainerLampPattern {
+	public TemporaryLampPattern(LampPattern sourcePattern, int duration, boolean startOn) {
+		super(sourcePattern);
 		this.duration = duration;
-		this.tempOn = tempOn;
+		this.startOn = startOn;
 	}
 
 	public void reset() {
@@ -19,17 +24,22 @@ public class TemporaryLampPattern implements LampPattern {
 		this.duration = duration;
 	}
 
-	public boolean getTempOn() {
-		return tempOn;
+	public boolean getInvert() {
+		return startOn;
 	}
 
-	public void setTempOn(boolean tempOn) {
-		this.tempOn = tempOn;
+	public void setInvert(boolean invert) {
+		this.startOn = invert;
 	}
 
 	@Override
 	public byte getColumn(int x) {
-		return (position < duration && tempOn) ? sourcePattern.getColumn(x) : 0;
+		if (position < duration) {
+			return startOn ? sourcePattern.getColumn(x) : 0;
+		} else {
+			// we're done with the cycle
+			return startOn ? 0 : sourcePattern.getColumn(x);
+		}
 	}
 
 	@Override
@@ -42,12 +52,15 @@ public class TemporaryLampPattern implements LampPattern {
 	}
 
 	public void endOfMatrixSync() {
+		super.endOfMatrixSync();
 		position = Math.min(duration, position + 1);
-
 	}
 
-	private LampPattern sourcePattern;
+	public boolean isDone() {
+		return position >= duration;
+	}
+
 	private int duration;
 	private int position;
-	private boolean tempOn;
+	private boolean startOn;
 }
