@@ -5,6 +5,10 @@ package us.cownet.lamps;
  brightness.
  */
 public class FadingLampPattern implements LampPattern {
+	/*
+	 Each PWM cycle is pwmSteps long and there are pwmSteps cycles before things complete.
+
+	 */
 
 	public enum FadeDirection {
 		FADE_TO_BLACK,
@@ -12,21 +16,15 @@ public class FadingLampPattern implements LampPattern {
 		BOUNCE
 	};
 
-	public void setPattern(LampPattern pattern, FadeDirection direction, int speed) {
-		sourcePattern = pattern;
-		fadeDirection = direction;
-		fadeSpeed = speed;
+	public void setPattern(LampPattern pattern, FadeDirection direction, int pwmSteps) {
+		this.sourcePattern = new TemporaryLampPattern(pattern, pwmSteps, direction != FadeDirection.FADE_TO_WHITE);
+		this.fadeDirection = direction;
+		this.pwmSteps = pwmSteps;
 	}
 
 	@Override
 	public byte getColumn(int x) {
-		if (currentValue > transitionValue) {
-			return (fadeDirection == FadeDirection.FADE_TO_BLACK)
-					? 0 : sourcePattern.getColumn(x);
-		} else {
-			return (fadeDirection == FadeDirection.FADE_TO_BLACK)
-					? sourcePattern.getColumn(x) : 0;
-		}
+		return sourcePattern.getColumn(x);
 	}
 
 	@Override
@@ -36,21 +34,24 @@ public class FadingLampPattern implements LampPattern {
 
 	@Override
 	public void attached() {
-		currentValue = 0;
-		transitionValue = fadeSpeed;
+		pwmPhase = pwmSteps;
+		pwmPosition = pwmSteps;
 	}
 
 	@Override
 	public void endOfMatrixSync() {
-		currentValue = (currentValue + 1) % fadeSpeed;
-		if (currentValue == 0) {
-			transitionValue = Math.min(transitionValue - 1, 0);
+		if (fadeDirection != FadeDirection.BOUNCE) {
+		} else {
 		}
 	}
 
-	private LampPattern sourcePattern;
+	private TemporaryLampPattern sourcePattern;
 	private FadeDirection fadeDirection;
-	private int fadeSpeed;
-	private int currentValue;
-	private int transitionValue;
+	private int pwmSteps;
+	private int pwmPhase;
+	private int pwmPosition;
+
+	public static void main(String args[]) {
+
+	}
 }
