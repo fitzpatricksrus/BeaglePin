@@ -9,6 +9,10 @@ public interface LampPattern {
 		return (getColumn(x) & (1 << y)) != 0;
 	}
 
+	public default boolean getLamp(int index) {
+		return getLamp(index >>> 3, index & 0b00000111);
+	}
+
 	public default void attached() {
 	}
 
