@@ -111,6 +111,8 @@ public class TemporaryLampPattern extends ContainerLampPattern {
 		testIteration(tlp, false, "initially off");
 		tlp = new TemporaryLampPattern(pattern, testDuration, true);
 		testIteration(tlp, true, "initially on");
-
+		tlp.reset();
+		testIteration(tlp, true, "initially on2");
+		System.out.println("DONE");
 	}
 }

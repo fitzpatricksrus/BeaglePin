@@ -33,5 +33,13 @@ public class ContainerLampPattern implements LampPattern {
 		sourcePattern.detached();
 	}
 
+	public LampPattern getPattern() {
+		return sourcePattern;
+	}
+
+	public void setLampPattern(LampPattern newPattern) {
+		sourcePattern = newPattern;
+	}
+
 	protected LampPattern sourcePattern;
 }
