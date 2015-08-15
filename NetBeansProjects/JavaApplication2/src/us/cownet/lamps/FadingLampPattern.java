@@ -6,6 +6,21 @@ package us.cownet.lamps;
  */
 public class FadingLampPattern extends ContainerLampPattern {
 	/*
+
+	 Here's the basic algorithm.
+
+	 for (flipNdx : fadeSpeed) {
+	 for (cycle : fadeSpeed) {
+	 if (cycle >= flipNdx) {
+	 lights are on
+	 } else {
+	 lights are off
+	 }
+	 }
+	 }
+
+	 The time it takes to actually fade is fadeIterations**2.
+
 	 Each PWM cycle is pwmSteps long and there are pwmSteps cycles before things complete.
 	 */
 	public enum FadeDirection {
@@ -15,65 +30,60 @@ public class FadingLampPattern extends ContainerLampPattern {
 	};
 
 	public FadingLampPattern(LampPattern pattern, FadeDirection direction, int pwmSteps) {
-		super(null);
-		setPattern(pattern, direction, pwmSteps);
+		super(pattern);
+		reset();
 	}
 
 	public void setPattern(LampPattern pattern, FadeDirection direction, int pwmSteps) {
-		this.invertingPattern = new TemporaryLampPattern(pattern, pwmSteps,
-				direction == FadeDirection.FADE_OFF);
-		sourcePattern = invertingPattern;
-		this.fadeDirection = direction;
-		this.pwmSteps = pwmSteps;
+		super.setLampPattern(pattern);
+		reset();
 	}
 
 	@Override
 	public byte getColumn(int x) {
-		return invertingPattern.getColumn(x);
+		if (cycle >= flipNdx) {
+			return super.getColumn(x);
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
 	public int getColCount() {
-		return invertingPattern.getColCount();
+		return super.getColCount();
 	}
 
 	@Override
 	public void attached() {
+		super.attached();
 		reset();
 	}
 
 	@Override
 	public void endOfMatrixSync() {
-		invertingPattern.endOfMatrixSync();
-		if (invertingPattern.isDone()) {
-			if (pwmPosition < pwmSteps) {
-				// keep stepping through this fade cycle
-				pwmPosition += 1;
-				invertingPattern.setDuration(pwmPosition);
-				invertingPattern.reset();
-			} else if (fadeDirection == FadeDirection.BOUNCE) {
-				//done with fade cycle and we're supposed to bounce
-				invertingPattern.setInvert(invertingPattern.getInvert());
-				reset();
-			} else {
-				// we're done
+		if (cycle >= flipNdx) {
+			// end of this cycle
+			if (flipNdx < fadeSpeed) {
+				// not the end of the fade yet
+				cycle = 0;
+				flipNdx = flipNdx + 1;
 			}
 		}
 	}
 
 	public void reset() {
-		pwmPosition = 0;
-		invertingPattern.setDuration(0);
+		flipNdx = 0;
+		cycle = 0;
 	}
 
 	public boolean isDone() {
-		return (fadeDirection != FadeDirection.BOUNCE) && (pwmPosition >= pwmSteps);
+		return flipNdx >= fadeSpeed;
 	}
 
-	private TemporaryLampPattern invertingPattern;
 	private FadeDirection fadeDirection;
-	private int pwmSteps;
-	private int pwmPosition;
+	private int fadeSpeed;
+	private int flipNdx;
+	private int cycle;
 
 	public static void main(String args[]) {
 
