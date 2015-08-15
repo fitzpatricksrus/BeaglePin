@@ -18,28 +18,28 @@ public class FadingLampPattern extends ContainerLampPattern {
 	public enum FadeDirection {
 		FADE_OFF,
 		FADE_ON,
-		BOUNCE
 	};
 
 	public FadingLampPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
 		super(pattern);
 		this.fadeSpeed = fadeSpeed;
+		this.fadeDirection = fadeDirection;
 		reset();
 	}
 
 	public void setPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
 		super.setLampPattern(pattern);
 		this.fadeSpeed = fadeSpeed;
+		this.fadeDirection = fadeDirection;
 		reset();
 	}
 
 	@Override
 	public byte getColumn(int x) {
 		if (cycle >= flipNdx) {
-			byte col = super.getColumn(x);
-			return col;
+			return (fadeDirection != FadeDirection.FADE_ON) ? 0 : super.getColumn(x);
 		} else {
-			return 0;
+			return (fadeDirection != FadeDirection.FADE_ON) ? super.getColumn(x) : 0;
 		}
 	}
 
@@ -73,6 +73,9 @@ public class FadingLampPattern extends ContainerLampPattern {
 				flipNdx++;
 				cycle = 0;
 			}
+		} else {
+			// done with the cycle.  keep it in the end state.
+			cycle = flipNdx;
 		}
 	}
 
