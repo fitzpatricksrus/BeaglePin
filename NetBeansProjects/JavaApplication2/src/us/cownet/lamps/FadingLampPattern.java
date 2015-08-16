@@ -6,14 +6,16 @@ package us.cownet.lamps;
  */
 public class FadingLampPattern extends ContainerLampPattern {
 	//Here's the basic algorithm.
-	//for (flipNdx : fadeSpeed) {
-	//  for (cycle : fadeSpeed) {
-	//    if (cycle >= flipNdx) {
-	//      lights are on
-	//    } else {
-	//      lights are off
-	//    }
-	//  }
+	//	int fadeSpeed = 10;
+	//	for (int flipNdx = 0; flipNdx <= fadeSpeed; flipNdx++) {
+	//		for (int cycle = 0; cycle < fadeSpeed; cycle++) {
+	//			if (cycle < flipNdx) {
+	//				System.out.println("flipNdx: " + flipNdx + " cycle: " + cycle + " on");
+	//			} else {
+	//				System.out.println("flipNdx: " + flipNdx + " cycle: " + cycle + " off");
+	//			}
+	//		}
+	//	}
 	// The time it takes to actually fade is fadeIterations**2.
 	public enum FadeDirection {
 		FADE_OFF,
@@ -36,10 +38,18 @@ public class FadingLampPattern extends ContainerLampPattern {
 
 	@Override
 	public byte getColumn(int x) {
-		if (cycle >= flipNdx) {
-			return (fadeDirection != FadeDirection.FADE_ON) ? 0 : super.getColumn(x);
+		//for (flipNdx : fadeSpeed) {
+		//  for (cycle : fadeSpeed) {
+		//    if (cycle < flipNdx) {
+		//      lights are on
+		//    } else {
+		//      lights are off
+		//    }
+		//  }
+		if (cycle < flipNdx) {
+			return super.getColumn(x);
 		} else {
-			return (fadeDirection != FadeDirection.FADE_ON) ? super.getColumn(x) : 0;
+			return 0;
 		}
 	}
 
@@ -58,7 +68,7 @@ public class FadingLampPattern extends ContainerLampPattern {
 	public void endOfMatrixSync() {
 		//for (flipNdx : fadeSpeed) {
 		//  for (cycle : fadeSpeed) {
-		//    if (cycle >= flipNdx) {
+		//    if (cycle < flipNdx) {
 		//      lights are on
 		//    } else {
 		//      lights are off
@@ -66,16 +76,10 @@ public class FadingLampPattern extends ContainerLampPattern {
 		//  }
 
 		super.endOfMatrixSync();
-		if (flipNdx < fadeSpeed) {
-			if (cycle < flipNdx) {
-				cycle++;
-			} else {
-				flipNdx++;
-				cycle = 0;
-			}
-		} else {
-			// done with the cycle.  keep it in the end state.
-			cycle = flipNdx;
+		cycle++;
+		if (cycle >= fadeSpeed) {
+			flipNdx = Math.min(flipNdx + 1, fadeSpeed + 1);
+			cycle = 0;
 		}
 	}
 
@@ -92,4 +96,31 @@ public class FadingLampPattern extends ContainerLampPattern {
 	private int fadeSpeed;
 	private int flipNdx;
 	private int cycle;
+
+	public static void main(String args[]) {
+		/*
+		 int fadeSpeed = 10;
+		 for (int flipNdx = 0; flipNdx <= fadeSpeed + 2; flipNdx++) {
+		 for (int cycle = 0; cycle < fadeSpeed; cycle++) {
+		 if (cycle < flipNdx) {
+		 System.out.println("flipNdx: " + flipNdx + " cycle: " + cycle + " on");
+		 } else {
+		 System.out.println("flipNdx: " + flipNdx + " cycle: " + cycle + " off");
+		 }
+		 }
+		 }
+		 */
+
+		int patternData[] = {0b11111111};
+		SimpleLampPattern simplePattern = new SimpleLampPattern(patternData);
+		FadingLampPattern fadingPattern = new FadingLampPattern(simplePattern,
+				FadeDirection.FADE_ON, 4);
+
+		fadingPattern.attached();
+		for (int i = 0; i < 4 * 7; i++) {
+			byte col = fadingPattern.getColumn(0);
+			System.out.println("cycle:" + i + "  col:" + col);
+			fadingPattern.endOfMatrixSync();
+		}
+	}
 }
