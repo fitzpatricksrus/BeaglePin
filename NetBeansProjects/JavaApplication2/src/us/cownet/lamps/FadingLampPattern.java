@@ -25,14 +25,14 @@ public class FadingLampPattern extends ContainerLampPattern {
 	public FadingLampPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
 		super(pattern);
 		this.fadeSpeed = fadeSpeed;
-		this.fadeDirection = fadeDirection;
+		this.fadeDirection = direction;
 		reset();
 	}
 
 	public void setPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
 		super.setLampPattern(pattern);
 		this.fadeSpeed = fadeSpeed;
-		this.fadeDirection = fadeDirection;
+		this.fadeDirection = direction;
 		reset();
 	}
 
@@ -46,10 +46,18 @@ public class FadingLampPattern extends ContainerLampPattern {
 		//      lights are off
 		//    }
 		//  }
-		if (cycle < flipNdx) {
-			return super.getColumn(x);
+		if (fadeDirection == FadeDirection.FADE_ON) {
+			if (cycle < flipNdx) {
+				return super.getColumn(x);
+			} else {
+				return 0;
+			}
 		} else {
-			return 0;
+			if (cycle < flipNdx) {
+				return 0;
+			} else {
+				return super.getColumn(x);
+			}
 		}
 	}
 
@@ -117,6 +125,15 @@ public class FadingLampPattern extends ContainerLampPattern {
 				FadeDirection.FADE_ON, 4);
 
 		fadingPattern.attached();
+		for (int i = 0; i < 4 * 7; i++) {
+			byte col = fadingPattern.getColumn(0);
+			System.out.println("cycle:" + i + "  col:" + col);
+			fadingPattern.endOfMatrixSync();
+		}
+
+		System.out.println();
+		fadingPattern = new FadingLampPattern(simplePattern,
+				FadeDirection.FADE_OFF, 4);
 		for (int i = 0; i < 4 * 7; i++) {
 			byte col = fadingPattern.getColumn(0);
 			System.out.println("cycle:" + i + "  col:" + col);
