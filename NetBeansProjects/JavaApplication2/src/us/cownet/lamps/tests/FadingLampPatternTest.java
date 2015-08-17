@@ -12,7 +12,7 @@ public class FadingLampPatternTest implements Test {
 		matrix = new SimpleLampMatrix(controller, micros);
 		sourcePattern = new SimpleLampPattern(patternValues);
 		fadingPattern = new FadingLampPattern(sourcePattern,
-				FadingLampPattern.FadeDirection.FADE_ON, 100000);
+				FadingLampPattern.FadeDirection.FADE_ON, 200);
 	}
 
 	@Override

@@ -97,7 +97,7 @@ public class FadingLampPattern extends ContainerLampPattern {
 	}
 
 	public boolean isDone() {
-		return flipNdx >= fadeSpeed;
+		return flipNdx > fadeSpeed;
 	}
 
 	private FadeDirection fadeDirection;
