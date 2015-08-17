@@ -22,6 +22,13 @@ public interface LampPattern {
 	public default void endOfMatrixSync() {
 	}
 
+	public default boolean isDone() {
+		return true;
+	}
+
+	public default void reset() {
+	}
+
 	public default void detached() {
 	}
 }
