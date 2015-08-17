@@ -3,12 +3,11 @@ package us.cownet.lamps;
 import us.cownet.timers.Callback;
 import us.cownet.timers.TimerUtil;
 
-public class SimpleLampMatrix implements LampMatrix {
+public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix {
 
 	private final PinballOutputController controller;
 	private final long ticks;
 	private int currentColumn;
-	private LampPattern currentPattern;
 	private LampPattern nextPattern;
 	private Callback callback = null;
 	private Callback thisCallback = null;
@@ -33,20 +32,15 @@ public class SimpleLampMatrix implements LampMatrix {
 
 	@Override
 	public void setPattern(LampPattern lamps) {
-		nextPattern = lamps;
-		if (currentPattern == null && nextPattern != null) {
-			// nothing was running and this is the first item
+		if (currentPattern == null && lamps != null) {
+			// kick start the first refresh.
 			currentPattern = lamps;
-			currentPattern.attached();
+			nextPattern = lamps;
 			TimerUtil.INSTANCE.attachTickerCallback(thisCallback, ticks);
-		} else if (currentPattern != null && nextPattern == null) {
-			// something is running, but we're turning it all off
-			TimerUtil.INSTANCE.detachCallback(thisCallback);
-			currentPattern.detached();
-			currentPattern = null;
 		} else {
 			// transitioning from one pattern to another is done in tock()
-			// do the transition is done cleanly
+			// tock() also terminates refresh if we're setting to null.
+			nextPattern = lamps;
 		}
 	}
 
@@ -57,15 +51,15 @@ public class SimpleLampMatrix implements LampMatrix {
 		currentPattern.endOfColumnSync();
 		currentColumn = (currentColumn + 1) % currentPattern.getColCount();
 		if (currentColumn == 0) {
+			// we've finished refressing the matrix one complete cycle.
 			if (callback != null) {
 				callback.call();
 			}
 			currentPattern.endOfMatrixSync();
-			if (currentPattern != nextPattern) {
-				// transition from one pattern to next on sync
-				currentPattern.detached();
-				currentPattern = nextPattern;
-				currentPattern.attached();
+			// transition from one pattern to next on sync
+			super.setPattern(nextPattern);
+			if (currentPattern == null) {	//note currentPattern == nextPattern here
+				TimerUtil.INSTANCE.detachCallback(thisCallback);
 			}
 		}
 	}

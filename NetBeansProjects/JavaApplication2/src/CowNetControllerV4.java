@@ -1,6 +1,10 @@
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.tests.*;
+import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
+import us.cownet.lamps.tests.FadingLampPatternTest;
+import us.cownet.lamps.tests.PinballOutputControllerTest;
+import us.cownet.lamps.tests.SimpleGreyscaleLampMatrixTest;
+import us.cownet.lamps.tests.SimpleLampMatrixTest;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;

@@ -38,6 +38,7 @@ public class ContainerLampPattern implements LampPattern {
 	}
 
 	public void setLampPattern(LampPattern newPattern) {
+		// hey jf - you need to deal with attach/detach and all that crud here.
 		sourcePattern = newPattern;
 	}
 
