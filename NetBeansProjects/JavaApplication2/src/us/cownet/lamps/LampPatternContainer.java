@@ -14,5 +14,9 @@ public class LampPatternContainer {
 		}
 	}
 
-	protected LampPattern currentPattern;
+	public LampPattern getAttachedPattern() {
+		return currentPattern;
+	}
+
+	private LampPattern currentPattern;
 }

@@ -9,20 +9,19 @@ public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix
 	private final long ticks;
 	private int currentColumn;
 	private LampPattern nextPattern;
-	private Callback callback = null;
+	private Callback syncCallback = null;
 	private Callback thisCallback = null;
 
 	public SimpleLampMatrix(PinballOutputController controller, long ticks) {
 		this.controller = controller;
 		this.ticks = ticks;
 		this.currentColumn = 0;
-		this.currentPattern = null;
 		this.nextPattern = null;
 		this.thisCallback = () -> tock();
 	}
 
 	public LampPattern getDisplayedPattern() {
-		return currentPattern;
+		return getAttachedPattern();
 	}
 
 	@Override
@@ -32,9 +31,9 @@ public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix
 
 	@Override
 	public void setPattern(LampPattern lamps) {
-		if (currentPattern == null && lamps != null) {
+		if (getAttachedPattern() == null && lamps != null) {
 			// kick start the first refresh.
-			currentPattern = lamps;
+			super.setPattern(lamps);
 			nextPattern = lamps;
 			TimerUtil.INSTANCE.attachTickerCallback(thisCallback, ticks);
 		} else {
@@ -45,20 +44,21 @@ public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix
 	}
 
 	private void tock() {
+		LampPattern attachedPattern = getAttachedPattern();
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)0);
-		controller.write(PinballOutputController.Register.LAMP_ROW, currentPattern.getColumn(currentColumn));
+		controller.write(PinballOutputController.Register.LAMP_ROW, attachedPattern.getColumn(currentColumn));
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << currentColumn));
-		currentPattern.endOfColumnSync();
-		currentColumn = (currentColumn + 1) % currentPattern.getColCount();
+		attachedPattern.endOfColumnSync();
+		currentColumn = (currentColumn + 1) % attachedPattern.getColCount();
 		if (currentColumn == 0) {
 			// we've finished refressing the matrix one complete cycle.
-			if (callback != null) {
-				callback.call();
+			if (syncCallback != null) {
+				syncCallback.call();
 			}
-			currentPattern.endOfMatrixSync();
+			attachedPattern.endOfMatrixSync();
 			// transition from one pattern to next on sync
 			super.setPattern(nextPattern);
-			if (currentPattern == null) {	//note currentPattern == nextPattern here
+			if (nextPattern == null) {	//note currentPattern == nextPattern here
 				TimerUtil.INSTANCE.detachCallback(thisCallback);
 			}
 		}
@@ -66,6 +66,6 @@ public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix
 
 	@Override
 	public void setSyncCallback(Callback callback) {
-		this.callback = callback;
+		this.syncCallback = callback;
 	}
 }
