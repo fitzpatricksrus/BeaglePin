@@ -3,10 +3,94 @@ package us.cownet.lamps;
 import java.util.ArrayList;
 
 public class LampSequence extends LampPatternContainer implements LampPattern {
+	private int ndx;
+	private final ArrayList<LampPattern> patterns;
+	private final Cycle cycle;
 
-	public LampSequence() {
+	private interface Cycle {
+		public int nextIndex();
+
+		public boolean isDone();
+
+		public void reset();
+	}
+
+	private class OneTime implements Cycle {
+		@Override
+		public int nextIndex() {
+			return ndx++;
+		}
+
+		@Override
+		public boolean isDone() {
+			return ndx < patterns.size();
+		}
+
+		public void reset() {
+			ndx = 0;
+		}
+	}
+
+	private class Repeating implements Cycle {
+		@Override
+		public int nextIndex() {
+			ndx = (ndx + 1) % patterns.size();
+			return ndx;
+		}
+
+		@Override
+		public boolean isDone() {
+			return false;
+		}
+
+		public void reset() {
+			ndx = 0;
+		}
+	}
+
+	private class Cylon implements Cycle {
+		@Override
+		public int nextIndex() {
+			ndx++;
+			if (ndx > patterns.size()) {
+				reset();
+			}
+			return Math.abs(ndx);
+		}
+
+		@Override
+		public boolean isDone() {
+			return false;
+		}
+
+		@Override
+		public void reset() {
+			ndx = -patterns.size() + 1;
+		}
+	}
+
+	public enum CycleType {
+		ONETIME,
+		REPEATING,
+		REVERSING,
+	}
+
+	public LampSequence(CycleType cycle) {
 		patterns = new ArrayList<>();
 		ndx = 0;
+		switch (cycle) {
+			case ONETIME:
+				this.cycle = new OneTime();
+				break;
+			case REPEATING:
+				this.cycle = new Repeating();
+				break;
+			case REVERSING:
+				this.cycle = new Cylon();
+				break;
+			default:
+				this.cycle = new OneTime();
+		}
 	}
 
 	public LampSequence add(LampPattern pattern) {
@@ -16,67 +100,66 @@ public class LampSequence extends LampPatternContainer implements LampPattern {
 
 	@Override
 	public byte getColumn(int x) {
-		if (ndx < patterns.size()) {
-			return patterns.get(ndx).getColumn(x);
-		} else {
+		if (cycle.isDone()) {
 			return 0;
+		} else {
+			return patterns.get(ndx).getColumn(x);
 		}
 	}
 
 	@Override
 	public int getColCount() {
-		if (ndx < patterns.size()) {
-			return patterns.get(ndx).getColCount();
-		} else {
+		if (cycle.isDone()) {
 			return 0;
+		} else {
+			return patterns.get(ndx).getColCount();
 		}
 	}
 
 	@Override
 	public void attached() {
-		reset();
-	}
-
-	@Override
-	public void endOfColumnSync() {
-		if (ndx < patterns.size()) {
-			patterns.get(ndx).endOfColumnSync();
+		cycle.reset();
+		if (!cycle.isDone()) {
+			patterns.get(ndx).attached();
 		}
 	}
 
 	@Override
 	public void endOfMatrixSync() {
-		if (ndx < patterns.size()) {
-			patterns.get(ndx).endOfMatrixSync();
-			patterns.get(ndx).detached();
-			ndx++;
-			if (ndx < patterns.size()) {
-				patterns.get(ndx).attached();
+		if (!cycle.isDone()) {
+			LampPattern currentPattern = patterns.get(ndx);
+			currentPattern.endOfMatrixSync();
+			if (currentPattern.isDone()) {
+				patterns.get(ndx).detached();
+				cycle.nextIndex();
+				if (!cycle.isDone()) {
+					patterns.get(ndx).attached();
+				}
 			}
 		}
 	}
 
 	@Override
 	public boolean isDone() {
-		return ndx < patterns.size();
+		return cycle.isDone();
 	}
 
 	@Override
 	public void reset() {
-		ndx = 0;
-		if (ndx < patterns.size()) {
+		if (!cycle.isDone()) {
+			patterns.get(ndx).detached();
+		}
+		cycle.reset();
+		if (!cycle.isDone()) {
 			patterns.get(ndx).attached();
 		}
 	}
 
 	@Override
 	public void detached() {
-		if (ndx < patterns.size()) {
+		if (!cycle.isDone()) {
 			patterns.get(ndx).detached();
 		}
 	}
-
-	private int ndx;
-	private ArrayList<LampPattern> patterns;
 
 }

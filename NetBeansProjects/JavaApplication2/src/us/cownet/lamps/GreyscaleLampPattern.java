@@ -113,7 +113,6 @@ public class GreyscaleLampPattern implements LampPattern {
 						result[col][row]++;
 					}
 				}
-				pattern.endOfColumnSync();
 			}
 			pattern.endOfMatrixSync();
 		}

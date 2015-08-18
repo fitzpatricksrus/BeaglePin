@@ -5,30 +5,32 @@ public class ContainerLampPattern implements LampPattern {
 		this.sourcePattern = sourcePattern;
 	}
 
+	@Override
 	public byte getColumn(int x) {
 		return sourcePattern.getColumn(x);
 	}
 
+	@Override
 	public int getColCount() {
 		return sourcePattern.getColCount();
 	}
 
+	@Override
 	public boolean getLamp(int x, int y) {
 		return sourcePattern.getLamp(x, y);
 	}
 
+	@Override
 	public void attached() {
 		sourcePattern.attached();
 	}
 
-	public void endOfColumnSync() {
-		sourcePattern.endOfColumnSync();
-	}
-
+	@Override
 	public void endOfMatrixSync() {
 		sourcePattern.endOfMatrixSync();
 	}
 
+	@Override
 	public void detached() {
 		sourcePattern.detached();
 	}
@@ -42,5 +44,5 @@ public class ContainerLampPattern implements LampPattern {
 		sourcePattern = newPattern;
 	}
 
-	protected LampPattern sourcePattern;
+	private LampPattern sourcePattern;
 }

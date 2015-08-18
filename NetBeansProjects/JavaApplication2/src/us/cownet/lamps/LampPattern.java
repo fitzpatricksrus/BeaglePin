@@ -16,9 +16,6 @@ public interface LampPattern {
 	public default void attached() {
 	}
 
-	public default void endOfColumnSync() {
-	}
-
 	public default void endOfMatrixSync() {
 	}
 

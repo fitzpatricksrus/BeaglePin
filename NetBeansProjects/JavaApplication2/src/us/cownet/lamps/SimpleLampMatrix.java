@@ -48,7 +48,6 @@ public class SimpleLampMatrix extends LampPatternContainer implements LampMatrix
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)0);
 		controller.write(PinballOutputController.Register.LAMP_ROW, attachedPattern.getColumn(currentColumn));
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << currentColumn));
-		attachedPattern.endOfColumnSync();
 		currentColumn = (currentColumn + 1) % attachedPattern.getColCount();
 		if (currentColumn == 0) {
 			// we've finished refressing the matrix one complete cycle.
