@@ -4,9 +4,9 @@ import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
 import us.cownet.lamps.tests.FadingLampPatternTest;
 import us.cownet.lamps.tests.GreyscaleLampPatternTest;
+import us.cownet.lamps.tests.LampMatrixTest;
 import us.cownet.lamps.tests.LampSequenceTest;
 import us.cownet.lamps.tests.PinballOutputControllerTest;
-import us.cownet.lamps.tests.SimpleLampMatrixTest;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -33,10 +33,10 @@ public class CowNetControllerV4 {
 
 		PinballOutputControllerTest pinballOutputControllerTest
 				= new PinballOutputControllerTest(controller);
-		SimpleLampMatrixTest simpleLampMatrixTest = new SimpleLampMatrixTest(controller, 0);
-
 		//------ matrix based tests
 		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 0);
+
+		LampMatrixTest simpleLampMatrixTest = new LampMatrixTest(lampMatrix);
 
 		GreyscaleLampPatternTest simpleGreyscaleLampMatrixTest
 				= new GreyscaleLampPatternTest(lampMatrix);
