@@ -32,4 +32,26 @@ public class SimpleLampPattern implements LampPattern {
 	public int getColCount() {
 		return pattern.length;
 	}
+
+	@Override
+	public void attached() {
+	}
+
+	@Override
+	public void endOfMatrixSync() {
+	}
+
+	@Override
+	public boolean isDone() {
+		// repeat forever
+		return false;
+	}
+
+	@Override
+	public void reset() {
+	}
+
+	@Override
+	public void detached() {
+	}
 }

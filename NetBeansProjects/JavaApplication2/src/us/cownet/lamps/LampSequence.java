@@ -8,7 +8,9 @@ public class LampSequence implements LampPattern {
 	private final Cycle cycle;
 
 	private interface Cycle {
-		public int nextIndex();
+		public int getIndex();
+
+		public void nextIndex();
 
 		public boolean isDone();
 
@@ -17,13 +19,18 @@ public class LampSequence implements LampPattern {
 
 	private class OneTime implements Cycle {
 		@Override
-		public int nextIndex() {
-			return ndx++;
+		public int getIndex() {
+			return Math.min(ndx, patterns.size() - 1);
+		}
+
+		@Override
+		public void nextIndex() {
+			ndx++;
 		}
 
 		@Override
 		public boolean isDone() {
-			return ndx < patterns.size();
+			return ndx >= patterns.size();
 		}
 
 		public void reset() {
@@ -33,9 +40,13 @@ public class LampSequence implements LampPattern {
 
 	private class Repeating implements Cycle {
 		@Override
-		public int nextIndex() {
-			ndx = (ndx + 1) % patterns.size();
+		public int getIndex() {
 			return ndx;
+		}
+
+		@Override
+		public void nextIndex() {
+			ndx = (ndx + 1) % patterns.size();
 		}
 
 		@Override
@@ -50,12 +61,16 @@ public class LampSequence implements LampPattern {
 
 	private class Cylon implements Cycle {
 		@Override
-		public int nextIndex() {
+		public int getIndex() {
+			return Math.abs(ndx);
+		}
+
+		@Override
+		public void nextIndex() {
 			ndx++;
-			if (ndx > patterns.size()) {
+			if (ndx >= patterns.size()) {
 				reset();
 			}
-			return Math.abs(ndx);
 		}
 
 		@Override
@@ -100,40 +115,32 @@ public class LampSequence implements LampPattern {
 
 	@Override
 	public byte getColumn(int x) {
-		if (cycle.isDone()) {
-			return 0;
-		} else {
-			return patterns.get(ndx).getColumn(x);
-		}
+		return patterns.get(cycle.getIndex()).getColumn(x);
 	}
 
 	@Override
 	public int getColCount() {
-		if (cycle.isDone()) {
-			return 0;
-		} else {
-			return patterns.get(ndx).getColCount();
-		}
+		return patterns.get(cycle.getIndex()).getColCount();
 	}
 
 	@Override
 	public void attached() {
 		cycle.reset();
 		if (!cycle.isDone()) {
-			patterns.get(ndx).attached();
+			patterns.get(cycle.getIndex()).attached();
 		}
 	}
 
 	@Override
 	public void endOfMatrixSync() {
 		if (!cycle.isDone()) {
-			LampPattern currentPattern = patterns.get(ndx);
+			LampPattern currentPattern = patterns.get(cycle.getIndex());
 			currentPattern.endOfMatrixSync();
 			if (currentPattern.isDone()) {
-				patterns.get(ndx).detached();
+				patterns.get(cycle.getIndex()).detached();
 				cycle.nextIndex();
 				if (!cycle.isDone()) {
-					patterns.get(ndx).attached();
+					patterns.get(cycle.getIndex()).attached();
 				}
 			}
 		}
@@ -147,18 +154,18 @@ public class LampSequence implements LampPattern {
 	@Override
 	public void reset() {
 		if (!cycle.isDone()) {
-			patterns.get(ndx).detached();
+			patterns.get(cycle.getIndex()).detached();
 		}
 		cycle.reset();
 		if (!cycle.isDone()) {
-			patterns.get(ndx).attached();
+			patterns.get(cycle.getIndex()).attached();
 		}
 	}
 
 	@Override
 	public void detached() {
 		if (!cycle.isDone()) {
-			patterns.get(ndx).detached();
+			patterns.get(cycle.getIndex()).detached();
 		}
 	}
 
