@@ -41,7 +41,7 @@ public class CowNetControllerV4 {
 		LampSequenceTest sequenceTest = new LampSequenceTest(lampMatrix);
 
 		//------ main test loop
-		Test currentTest = simpleGreyscaleLampMatrixTest;
+		Test currentTest = sequenceTest;
 
 		long count = 0;
 		System.out.println("setup()");
@@ -57,7 +57,7 @@ public class CowNetControllerV4 {
 				count = 0;
 			}
 			try {
-//				Thread.sleep(50);
+				Thread.sleep(0, 1);
 			} catch (Exception e) {
 
 			}

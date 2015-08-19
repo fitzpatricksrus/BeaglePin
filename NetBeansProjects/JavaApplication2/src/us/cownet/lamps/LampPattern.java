@@ -34,10 +34,20 @@ public interface LampPattern {
 	public default void endOfMatrixSync() {
 	}
 
+	/*
+	 Used only by pattern containers.  isDone() should return true when the
+	 pattern has displayed its entire state sequence once.  This has no affect
+	 on the lamp matrix, which will continue to cycle through columns.  Containers
+	 can decide how to proceed and may reset() the pattern, replace it, or
+	 continue to refresh the matrix with it.
+	 */
 	public default boolean isDone() {
 		return false;
 	}
 
+	/*
+	 Start the refresh sequence from the beginning.
+	 */
 	public default void reset() {
 	}
 

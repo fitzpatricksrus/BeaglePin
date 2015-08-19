@@ -34,7 +34,7 @@ public class LampSequenceTest implements Test {
 		FadingLampPattern fadeOffPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_OFF, 200);
 
-		LampSequence sequence = new LampSequence(LampSequence.CycleType.ONETIME);
+		LampSequence sequence = new LampSequence(LampSequence.CycleType.REVERSING);
 //		sequence.add(fadeOffPattern);
 		sequence.add(fadeOnPattern);
 		matrix.setPattern(sequence);
