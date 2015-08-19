@@ -5,53 +5,71 @@ import java.util.ArrayList;
 public class CompositeOrLampPattern implements LampPattern {
 	public CompositeOrLampPattern() {
 		patterns = new ArrayList<>();
-		compositePatternStorage = new int[0];
-		compositePattern = new SimpleLampPattern(compositePatternStorage);
 	}
 
 	public void addPattern(LampPattern pattern) {
 		patterns.add(pattern);
-		recomputeDerivedPattern();
 	}
 
 	public void RemovePattern(LampPattern pattern) {
 		patterns.remove(pattern);
-		recomputeDerivedPattern();
 	}
 
 	@Override
 	public byte getColumn(int col) {
-		return compositePattern.getColumn(col);
-	}
-
-	@Override
-	public boolean getLamp(int col, int row) {
-		return compositePattern.getLamp(col, row);
+		byte result = 0;
+		for (LampPattern pattern : patterns) {
+			result |= pattern.getColumn(col);
+		}
+		return result;
 	}
 
 	@Override
 	public int getColCount() {
-		return compositePatternStorage.length;
+		int result = 0;
+		for (LampPattern p : patterns) {
+			result = Math.max(result, p.getColCount());
+		}
+		return result;
 	}
 
-	private void recomputeDerivedPattern() {
-		int colCount = 0;
+	@Override
+	public void attached() {
 		for (LampPattern pattern : patterns) {
-			colCount = Math.max(colCount, pattern.getColCount());
+			pattern.attached();
 		}
-		if (colCount != compositePatternStorage.length) {
-			// only reallocate storage if we need to.
-			compositePatternStorage = new int[colCount];	// already 0s.  It's Java
-		}
+	}
+
+	@Override
+	public void endOfMatrixSync() {
 		for (LampPattern pattern : patterns) {
-			for (int i = 0; i < pattern.getColCount(); i++) {
-				compositePatternStorage[i] |= pattern.getColumn(i);
+			pattern.endOfMatrixSync();
+		}
+	}
+
+	@Override
+	public boolean isDone() {
+		for (LampPattern pattern : patterns) {
+			if (!pattern.isDone()) {
+				return false;
 			}
 		}
-		compositePattern.setPattern(compositePatternStorage);
+		return true;
+	}
+
+	@Override
+	public void reset() {
+		for (LampPattern pattern : patterns) {
+			pattern.reset();
+		}
+	}
+
+	@Override
+	public void detached() {
+		for (LampPattern pattern : patterns) {
+			pattern.detached();
+		}
 	}
 
 	private ArrayList<LampPattern> patterns;
-	private int compositePatternStorage[];
-	private SimpleLampPattern compositePattern;
 }
