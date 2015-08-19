@@ -23,7 +23,7 @@ public class LampSequence implements LampPattern {
 
 		@Override
 		public boolean isDone() {
-			return ndx < patterns.size();
+			return ndx >= patterns.size();
 		}
 
 		public void reset() {

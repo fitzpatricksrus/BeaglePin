@@ -58,7 +58,7 @@ public class SimpleLampMatrix implements LampMatrix {
 			attachedPattern.endOfMatrixSync();
 			// transition from one pattern to next on sync
 			internalSetPattern(nextPattern);
-			if (nextPattern == null) {	//note currentPattern == nextPattern here
+			if (attachedPattern == null) {	//note currentPattern == nextPattern here
 				TimerUtil.INSTANCE.detachCallback(thisCallback);
 			}
 		}

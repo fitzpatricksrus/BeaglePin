@@ -5,8 +5,8 @@ import us.cownet.lamps.LampMatrix;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
-public class GreyscaleLampMatrixTest implements Test {
-	public GreyscaleLampMatrixTest(LampMatrix greyMatrix) {
+public class GreyscaleLampPatternTest implements Test {
+	public GreyscaleLampPatternTest(LampMatrix greyMatrix) {
 		this.greyLampMatrix = greyMatrix;
 	}
 

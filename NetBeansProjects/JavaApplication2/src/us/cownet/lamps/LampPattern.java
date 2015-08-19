@@ -1,5 +1,20 @@
 package us.cownet.lamps;
 
+/*
+ LampPattern has two protocols.  One for the lamp matrix and one for patterns
+ that embed other patterns.
+
+ For the lamp matrix, the life cycle looks like this:
+ attached()
+ getColumn()+
+ getColCount()+
+ endOfMatrixSync()+
+ detached()
+
+ isDone() and reset() are ignored by the lamp matrix.  They are only used
+ by pattern containers to tell when to transition from one pattern to the next.
+
+ */
 public interface LampPattern {
 	public byte getColumn(int x);
 
@@ -20,7 +35,7 @@ public interface LampPattern {
 	}
 
 	public default boolean isDone() {
-		return true;
+		return false;
 	}
 
 	public default void reset() {

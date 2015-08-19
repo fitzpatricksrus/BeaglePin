@@ -1,15 +1,14 @@
 package us.cownet.lamps.tests;
 
 import us.cownet.lamps.FadingLampPattern;
-import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.SimpleLampMatrix;
+import us.cownet.lamps.LampMatrix;
 import us.cownet.lamps.SimpleLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
 public class FadingLampPatternTest implements Test {
-	public FadingLampPatternTest(PinballOutputController controller, long micros) {
-		matrix = new SimpleLampMatrix(controller, micros);
+	public FadingLampPatternTest(LampMatrix matrix) {
+		this.matrix = matrix;
 		sourcePattern = new SimpleLampPattern(patternValues);
 		fadingPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_ON, 200);
@@ -38,6 +37,6 @@ public class FadingLampPatternTest implements Test {
 
 	private SimpleLampPattern sourcePattern;
 	private FadingLampPattern fadingPattern;
-	private final SimpleLampMatrix matrix;
+	private final LampMatrix matrix;
 
 }

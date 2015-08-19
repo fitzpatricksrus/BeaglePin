@@ -1,10 +1,7 @@
 
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
-import us.cownet.lamps.tests.FadingLampPatternTest;
-import us.cownet.lamps.tests.PinballOutputControllerTest;
-import us.cownet.lamps.tests.SimpleGreyscaleLampMatrixTest;
-import us.cownet.lamps.tests.SimpleLampMatrixTest;
+import us.cownet.lamps.SimpleLampMatrix;
+import us.cownet.lamps.tests.*;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -14,6 +11,8 @@ public class CowNetControllerV4 {
 	private static final boolean RUN_ON_WPC = false;
 
 	public static void main(String[] args) {
+
+		//------ controller based tests
 		PinballOutputController controller;
 		if (RUN_ON_WPC) {
 			controller = new WpcOutputController(
@@ -30,12 +29,19 @@ public class CowNetControllerV4 {
 		PinballOutputControllerTest pinballOutputControllerTest
 				= new PinballOutputControllerTest(controller);
 		SimpleLampMatrixTest simpleLampMatrixTest = new SimpleLampMatrixTest(controller, 0);
-		SimpleGreyscaleLampMatrixTest simpleGreyscaleLampMatrixTest
-				= new SimpleGreyscaleLampMatrixTest(controller, 0);
-		FadingLampPatternTest fadingPatternTest = new FadingLampPatternTest(controller, 0);
 
-		//SimpleLampMatrixTest test(controller, 2000L * 1000L);
-		Test currentTest = fadingPatternTest;
+		//------ matrix based tests
+		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 0);
+
+		GreyscaleLampPatternTest simpleGreyscaleLampMatrixTest
+				= new GreyscaleLampPatternTest(lampMatrix);
+
+		FadingLampPatternTest fadingPatternTest = new FadingLampPatternTest(lampMatrix);
+
+		LampSequenceTest sequenceTest = new LampSequenceTest(lampMatrix);
+
+		//------ main test loop
+		Test currentTest = simpleGreyscaleLampMatrixTest;
 
 		long count = 0;
 		System.out.println("setup()");
@@ -43,7 +49,7 @@ public class CowNetControllerV4 {
 
 //		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
-		while (true) {
+		while (!currentTest.isDone()) {
 			currentTest.loop();
 			count++;
 			if (ticks.isTime()) {
