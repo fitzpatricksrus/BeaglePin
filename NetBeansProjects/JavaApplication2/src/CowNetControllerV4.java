@@ -1,7 +1,12 @@
 
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.tests.*;
+import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
+import us.cownet.lamps.tests.FadingLampPatternTest;
+import us.cownet.lamps.tests.GreyscaleLampPatternTest;
+import us.cownet.lamps.tests.LampSequenceTest;
+import us.cownet.lamps.tests.PinballOutputControllerTest;
+import us.cownet.lamps.tests.SimpleLampMatrixTest;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -57,7 +62,12 @@ public class CowNetControllerV4 {
 				count = 0;
 			}
 			try {
-				Thread.sleep(0, 1);
+				for (long i = 0; i < 10000; i++) {
+					long x = count;
+					count = 0;
+					count = x;
+				}
+//				Thread.sleep(0, 1);
 			} catch (Exception e) {
 
 			}
