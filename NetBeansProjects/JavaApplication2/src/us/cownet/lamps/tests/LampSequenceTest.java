@@ -40,9 +40,9 @@ public class LampSequenceTest implements Test {
 	public void setup() {
 		SimpleLampPattern sourcePattern = new SimpleLampPattern(patternValues);
 		FadingLampPattern fadeOnPattern = new FadingLampPattern(sourcePattern,
-				FadingLampPattern.FadeDirection.FADE_ON, 255);
+				FadingLampPattern.FadeDirection.FADE_ON, 511);
 		FadingLampPattern fadeOffPattern = new FadingLampPattern(sourcePattern,
-				FadingLampPattern.FadeDirection.FADE_OFF, 255);
+				FadingLampPattern.FadeDirection.FADE_OFF, 511);
 
 		LampSequence innerSequence = new LampSequence(LampSequence.CycleType.ONETIME);
 		innerSequence.add(fadeOnPattern);
@@ -50,9 +50,9 @@ public class LampSequenceTest implements Test {
 
 		SimpleLampPattern sourcePattern1 = new SimpleLampPattern(patternValues1);
 		FadingLampPattern fadeOnPattern1 = new FadingLampPattern(sourcePattern1,
-				FadingLampPattern.FadeDirection.FADE_ON, 255);
+				FadingLampPattern.FadeDirection.FADE_ON, 511);
 		FadingLampPattern fadeOffPattern1 = new FadingLampPattern(sourcePattern1,
-				FadingLampPattern.FadeDirection.FADE_OFF, 255);
+				FadingLampPattern.FadeDirection.FADE_OFF, 511);
 
 		LampSequence outerSequence = new LampSequence(LampSequence.CycleType.ONETIME);
 		outerSequence.add(fadeOnPattern1);

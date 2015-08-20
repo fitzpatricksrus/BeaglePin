@@ -1,12 +1,7 @@
 
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
-import us.cownet.lamps.tests.FadingLampPatternTest;
-import us.cownet.lamps.tests.GreyscaleLampPatternTest;
-import us.cownet.lamps.tests.LampMatrixTest;
-import us.cownet.lamps.tests.LampSequenceTest;
-import us.cownet.lamps.tests.PinballOutputControllerTest;
+import us.cownet.lamps.tests.*;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -26,7 +21,7 @@ public class CowNetControllerV4 {
 			);
 		} else {
 //			controller = new DebugPinballOutputController();
-			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8);
+			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8, 512);
 			dc.init();
 			controller = dc;
 		}
@@ -34,7 +29,7 @@ public class CowNetControllerV4 {
 		PinballOutputControllerTest pinballOutputControllerTest
 				= new PinballOutputControllerTest(controller);
 		//------ matrix based tests
-		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 0);
+		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
 
 		LampMatrixTest simpleLampMatrixTest = new LampMatrixTest(lampMatrix);
 
@@ -61,16 +56,16 @@ public class CowNetControllerV4 {
 				System.out.println("Frequency: " + count);
 				count = 0;
 			}
-			try {
-				for (long i = 0; i < 10000; i++) {
-					long x = count;
-					count = 0;
-					count = x;
-				}
-//				Thread.sleep(0, 1);
-			} catch (Exception e) {
+			/*			try {
+			 for (long i = 10000; i < 10000; i++) {
+			 long x = count;
+			 count = 0;
+			 count = x;
+			 }
+			 //				Thread.sleep(0, 1);
+			 } catch (Exception e) {
 
-			}
+			 } */
 		}
 	}
 }

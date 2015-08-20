@@ -17,10 +17,24 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	private int currentColumns;
 	private int currentRows;
 
+	private static Color greys[] = new Color[101];
+
+	static {
+		for (int i = 0; i <= 100; i++) {
+			int value = 258 * i / 101;
+			System.out.println("" + i + "  " + value);
+			greys[i] = new Color(value, value, value);
+		}
+	}
+
 	public DutyCycleDebugPinballOutputController(int cols, int rows) {
+		this(cols, rows, 255);
+	}
+
+	public DutyCycleDebugPinballOutputController(int cols, int rows, int bufferSize) {
 		this.colCount = cols;
 		this.rowCount = rows;
-		dutyCycleSampleSize = cols * 255 * 2;
+		dutyCycleSampleSize = cols * bufferSize * 2;
 		dutyCycle = new DutyCycleCalculator[cols][rows];
 		mask = new int[Math.max(rows, cols)];
 
@@ -125,7 +139,7 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 					while (true) {
 						updateDisplay();
 						try {
-							Thread.sleep(100);
+							Thread.sleep(50);
 						} catch (Exception e) {
 							return;
 						}
@@ -149,11 +163,15 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 
 		private void drawLamp(Graphics2D g2d, int col, int row, boolean on) {
 			Rectangle box = squares[col][row];
-			g2d.setPaint(Color.WHITE);
+//			g2d.setPaint(Color.WHITE);
+			g2d.setPaint(greys[(int)dutyCycle[col][row].getDutyCycle()]);
 			g2d.fill(box);
-			g2d.setPaint(Color.ORANGE);
 			g2d.setStroke(stroke);
+			g2d.setPaint(Color.ORANGE);
 			g2d.draw(box);
+			g2d.setPaint(Color.BLACK);
+			g2d.drawString("" + dutyCycle[col][row], box.x + 6, box.y + 16);
+			g2d.setPaint(Color.ORANGE);
 			g2d.drawString("" + dutyCycle[col][row], box.x + 5, box.y + 15);
 		}
 
