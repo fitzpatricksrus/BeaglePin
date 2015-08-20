@@ -10,7 +10,11 @@ public class GreyscaleLampPattern implements LampPattern {
 	}
 
 	public GreyscaleLampPattern(int[][] greyPattern, int grayscaleBits) {
-		setPattern(greyPattern, grayscaleBits);
+		setPattern(greyPattern, grayscaleBits, 0);
+	}
+
+	public GreyscaleLampPattern(int[][] greyPattern, int grayscaleBits, int startPosition) {
+		setPattern(greyPattern, grayscaleBits, startPosition);
 	}
 
 	@Override
@@ -23,9 +27,13 @@ public class GreyscaleLampPattern implements LampPattern {
 		return patterns[0].getColCount();
 	}
 
+	public void setStartPosition(int startPosition) {
+		cycleStart = startPosition;
+	}
+
 	@Override
 	public void attached() {
-		cycleCount = 0;
+		cycleCount = cycleStart;
 	}
 
 	@Override
@@ -34,11 +42,12 @@ public class GreyscaleLampPattern implements LampPattern {
 	}
 
 	public final void setPattern(int[][] greyPattern) {
-		setPattern(greyPattern, 8);
+		setPattern(greyPattern, 8, 0);
 	}
 
-	public final void setPattern(int[][] greyPattern, int grayscaleBits) {
+	public final void setPattern(int[][] greyPattern, int grayscaleBits, int startPosition) {
 		this.grayscaleBits = grayscaleBits;
+		this.cycleStart = startPosition;
 		greyscaleCycleSize = (1 << grayscaleBits) - 1;
 		mask = new int[grayscaleBits];
 		index = new int[greyscaleCycleSize];
@@ -74,6 +83,8 @@ public class GreyscaleLampPattern implements LampPattern {
 
 	// position in the refresh cycle
 	private int cycleCount;
+	// position to start the cycle on attached()
+	private int cycleStart;
 	// how many bits of greyscale resolution
 	private int grayscaleBits;
 	// component lamp patters.  one for each greyscale bit
