@@ -1,7 +1,13 @@
 
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.tests.*;
+import us.cownet.lamps.tests.CompisiteOrLampPatternTest;
+import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
+import us.cownet.lamps.tests.FadingLampPatternTest;
+import us.cownet.lamps.tests.GreyscaleLampPatternTest;
+import us.cownet.lamps.tests.LampMatrixTest;
+import us.cownet.lamps.tests.LampSequenceTest;
+import us.cownet.lamps.tests.PinballOutputControllerTest;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -40,8 +46,10 @@ public class CowNetControllerV4 {
 
 		LampSequenceTest sequenceTest = new LampSequenceTest(lampMatrix);
 
+		CompisiteOrLampPatternTest orTest = new CompisiteOrLampPatternTest(lampMatrix);
+
 		//------ main test loop
-		Test currentTest = sequenceTest;
+		Test currentTest = orTest;
 
 		long count = 0;
 		System.out.println("setup()");

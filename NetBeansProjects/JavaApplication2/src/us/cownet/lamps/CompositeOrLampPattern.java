@@ -7,11 +7,11 @@ public class CompositeOrLampPattern implements LampPattern {
 		patterns = new ArrayList<>();
 	}
 
-	public void addPattern(LampPattern pattern) {
+	public void add(LampPattern pattern) {
 		patterns.add(pattern);
 	}
 
-	public void RemovePattern(LampPattern pattern) {
+	public void remove(LampPattern pattern) {
 		patterns.remove(pattern);
 	}
 
