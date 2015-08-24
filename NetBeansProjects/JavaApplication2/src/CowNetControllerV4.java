@@ -54,7 +54,7 @@ public class CowNetControllerV4 {
 
 //		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
-		Timer loopTick = new Timer(2);
+		Timer loopTick = new Timer(7);
 		while (!currentTest.isDone()) {
 			if (loopTick.isTime()) {
 				currentTest.loop();
