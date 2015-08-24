@@ -33,6 +33,12 @@ public class LampSequence implements LampPattern {
 			return ndx >= patterns.size();
 		}
 
+		@Override
+		public void reset() {
+		}
+	}
+
+	private class OneTimeResetable extends OneTime {
 		public void reset() {
 			ndx = 0;
 		}
@@ -54,6 +60,7 @@ public class LampSequence implements LampPattern {
 			return false;
 		}
 
+		@Override
 		public void reset() {
 			ndx = 0;
 		}
@@ -86,8 +93,9 @@ public class LampSequence implements LampPattern {
 
 	public enum CycleType {
 		ONETIME,
+		ONETIME_RESETABLE,
 		REPEATING,
-		REVERSING,
+		CYLON,
 	}
 
 	public LampSequence(CycleType cycle) {
@@ -97,14 +105,18 @@ public class LampSequence implements LampPattern {
 			case ONETIME:
 				this.cycle = new OneTime();
 				break;
+			case ONETIME_RESETABLE:
+				this.cycle = new OneTimeResetable();
+				break;
 			case REPEATING:
 				this.cycle = new Repeating();
 				break;
-			case REVERSING:
+			case CYLON:
 				this.cycle = new Cylon();
 				break;
 			default:
-				this.cycle = new OneTime();
+				this.cycle = new OneTimeResetable();
+				break;
 		}
 	}
 

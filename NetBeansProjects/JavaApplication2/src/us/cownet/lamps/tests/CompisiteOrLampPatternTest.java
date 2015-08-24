@@ -46,7 +46,7 @@ public class CompisiteOrLampPatternTest implements Test {
 		FadingLampPattern fadeOffPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_OFF, speed);
 
-		LampSequence innerSequence = new LampSequence(LampSequence.CycleType.ONETIME);
+		LampSequence innerSequence = new LampSequence(LampSequence.CycleType.ONETIME_RESETABLE);
 		innerSequence.add(fadeOnPattern);
 		innerSequence.add(fadeOffPattern);
 
@@ -56,7 +56,7 @@ public class CompisiteOrLampPatternTest implements Test {
 		FadingLampPattern fadeOffPattern1 = new FadingLampPattern(sourcePattern1,
 				FadingLampPattern.FadeDirection.FADE_OFF, speed);
 
-		LampSequence outerSequence = new LampSequence(LampSequence.CycleType.ONETIME);
+		LampSequence outerSequence = new LampSequence(LampSequence.CycleType.ONETIME_RESETABLE);
 		outerSequence.add(fadeOffPattern1);
 		outerSequence.add(fadeOnPattern1);
 
