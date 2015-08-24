@@ -1,5 +1,6 @@
 
 import us.cownet.lamps.PinballOutputController;
+import us.cownet.lamps.PrefetchSimpleLampMatrix;
 import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.tests.*;
 import us.cownet.lamps.wpc.WpcOutputController;
@@ -30,33 +31,40 @@ public class CowNetControllerV4 {
 				= new PinballOutputControllerTest(controller);
 		//------ matrix based tests
 		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
+		PrefetchSimpleLampMatrix prefetchLampMatrix = new PrefetchSimpleLampMatrix(controller, 1);
 
 		LampMatrixTest simpleLampMatrixTest = new LampMatrixTest(lampMatrix);
 
 		GreyscaleLampPatternTest simpleGreyscaleLampMatrixTest
-				= new GreyscaleLampPatternTest(lampMatrix);
+				= new GreyscaleLampPatternTest(prefetchLampMatrix);
 
-		FadingLampPatternTest fadingPatternTest = new FadingLampPatternTest(lampMatrix);
+		FadingLampPatternTest fadingPatternTest = new FadingLampPatternTest(prefetchLampMatrix);
 
-		LampSequenceTest sequenceTest = new LampSequenceTest(lampMatrix);
+		LampSequenceTest sequenceTest = new LampSequenceTest(prefetchLampMatrix);
 
-		CompisiteOrLampPatternTest orTest = new CompisiteOrLampPatternTest(lampMatrix);
+		CompisiteOrLampPatternTest orTest = new CompisiteOrLampPatternTest(prefetchLampMatrix);
 
 		//------ main test loop
 		Test currentTest = simpleGreyscaleLampMatrixTest;
 
 		long count = 0;
+		long tickCount = 0;
 		System.out.println("setup()");
 		currentTest.setup();
 
 //		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
+		Timer loopTick = new Timer(2);
 		while (!currentTest.isDone()) {
-			currentTest.loop();
+			if (loopTick.isTime()) {
+				currentTest.loop();
+				tickCount++;
+			}
 			count++;
 			if (ticks.isTime()) {
-				System.out.println("Frequency: " + count);
+				System.out.println("Frequency: " + count + ",  ticks: " + tickCount);
 				count = 0;
+				tickCount = 0;
 			}
 			/*			try {
 			 for (long i = 10000; i < 10000; i++) {

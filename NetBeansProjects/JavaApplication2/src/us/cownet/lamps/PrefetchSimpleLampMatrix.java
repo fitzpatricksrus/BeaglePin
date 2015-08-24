@@ -3,6 +3,12 @@ package us.cownet.lamps;
 import us.cownet.timers.Callback;
 import us.cownet.timers.TimerUtil;
 
+/*
+ Simple lamp matrix that displays a cached column value and then fetches the new
+ value from the pattern.  This in theory will allow it to display the next column
+ quickly and hide the time to calculate the next column in the space after when
+ the refresh has already taken place.
+ */
 public class PrefetchSimpleLampMatrix implements LampMatrix {
 
 	private final PinballOutputController controller;
@@ -12,7 +18,7 @@ public class PrefetchSimpleLampMatrix implements LampMatrix {
 	private Callback syncCallback = null;
 	private Callback thisCallback = null;
 	private LampPattern attachedPattern;
-	private byte prefetchedColumn;
+	private byte prefetchedColumnValue;
 
 	public PrefetchSimpleLampMatrix(PinballOutputController controller, long ticks) {
 		this.controller = controller;
@@ -48,7 +54,7 @@ public class PrefetchSimpleLampMatrix implements LampMatrix {
 
 	private void tock() {
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)0);
-		controller.write(PinballOutputController.Register.LAMP_ROW, prefetchedColumn);
+		controller.write(PinballOutputController.Register.LAMP_ROW, prefetchedColumnValue);
 		controller.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << currentColumn));
 		currentColumn = (currentColumn + 1) % attachedPattern.getColCount();
 		if (currentColumn == 0) {
@@ -63,7 +69,7 @@ public class PrefetchSimpleLampMatrix implements LampMatrix {
 				TimerUtil.INSTANCE.detachCallback(thisCallback);
 			}
 		}
-		prefetchedColumn = attachedPattern.getColumn(currentColumn);
+		prefetchedColumnValue = attachedPattern.getColumn(currentColumn);
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class PrefetchSimpleLampMatrix implements LampMatrix {
 			attachedPattern = newPattern;
 			if (attachedPattern != null) {
 				attachedPattern.attached();
-				prefetchedColumn = attachedPattern.getColumn(currentColumn);
+				prefetchedColumnValue = attachedPattern.getColumn(currentColumn);
 			}
 		}
 	}

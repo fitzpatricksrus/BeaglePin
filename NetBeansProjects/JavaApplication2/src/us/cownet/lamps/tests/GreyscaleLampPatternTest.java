@@ -1,7 +1,7 @@
 package us.cownet.lamps.tests;
 
+import us.cownet.lamps.AbstractGreyscaleLampPattern;
 import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.SimpleGreyscaleLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
@@ -32,7 +32,7 @@ public class GreyscaleLampPatternTest implements Test {
 			}
 		}
 
-		SimpleGreyscaleLampPattern pattern = new SimpleGreyscaleLampPattern(patternValues);
+		AbstractGreyscaleLampPattern pattern = new AbstractGreyscaleLampPattern(patternValues);
 		greyLampMatrix.setPattern(pattern);
 	}
 
