@@ -2,7 +2,13 @@
 import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.PrefetchSimpleLampMatrix;
 import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.tests.*;
+import us.cownet.lamps.tests.CompisiteOrLampPatternTest;
+import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
+import us.cownet.lamps.tests.FadingLampPatternTest;
+import us.cownet.lamps.tests.GreyscaleLampPatternTest;
+import us.cownet.lamps.tests.LampMatrixTest;
+import us.cownet.lamps.tests.LampSequenceTest;
+import us.cownet.lamps.tests.PinballOutputControllerTest;
 import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
@@ -54,12 +60,12 @@ public class CowNetControllerV4 {
 
 //		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
-		Timer loopTick = new Timer(7);
+		Timer loopTick = new Timer(70);
 		while (!currentTest.isDone()) {
-			if (loopTick.isTime()) {
-				currentTest.loop();
-				tickCount++;
-			}
+//			if (loopTick.isTime()) {
+			currentTest.loop();
+			tickCount++;
+//			}
 			count++;
 			if (ticks.isTime()) {
 				System.out.println("Frequency: " + count + ",  ticks: " + tickCount);

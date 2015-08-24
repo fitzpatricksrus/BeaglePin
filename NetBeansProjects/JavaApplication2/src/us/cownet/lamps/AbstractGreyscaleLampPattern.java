@@ -114,6 +114,53 @@ public abstract class AbstractGreyscaleLampPattern implements LampPattern {
 		protected int getLampValue(int col, int row) {
 			return greyPattern[col][row];
 		}
-
 	}
+
+	public static class Pattern2 extends AbstractGreyscaleLampPattern {
+		private int position = 0;
+
+		public Pattern2() {
+			this(8);
+		}
+
+		public Pattern2(int grayscaleBits) {
+			this(grayscaleBits, 0);
+		}
+
+		public Pattern2(int grayscaleBits, int startPosition) {
+			setPattern(grayscaleBits, startPosition);
+		}
+
+		@Override
+		public int getColCount() {
+			return 8;
+		}
+
+		@Override
+		protected int getLampValue(int col, int row) {
+			int ndx = col * 8 + row;	// 0 - 63
+			int adj = Math.abs(((position + ndx) % 128) - 64);	// -64..64
+//			if (ndx == 0) {
+//				System.out.println(Math.min(adj * 4, 255));
+//			}
+			return Math.min(adj * 4, 255);
+		}
+
+		@Override
+		protected void greyscaleEndOfSync() {
+			position = (position + 1) % 128;
+		}
+	}
+
+	public static void main(String[] args) {
+		for (int position = 0; position < 256; position++) {
+			System.out.print("" + position + "> ");
+			for (int ndx = 0; ndx < 64; ndx++) {
+				int adj = Math.abs(((position + ndx) % 128) - 64);	// -64..64
+				System.out.print("" + adj + ",");
+			}
+			System.out.println();
+		}
+	}
+
 }
