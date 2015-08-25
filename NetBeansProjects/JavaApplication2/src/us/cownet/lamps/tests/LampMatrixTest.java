@@ -1,6 +1,9 @@
 package us.cownet.lamps.tests;
 
 import us.cownet.lamps.LampMatrix;
+import us.cownet.lamps.PinballOutputController;
+import us.cownet.lamps.PrefetchSimpleLampMatrix;
+import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.SimpleLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
@@ -33,5 +36,17 @@ public class LampMatrixTest implements Test {
 	@Override
 	public void loop() {
 		TimerUtil.INSTANCE.tick();
+	}
+
+	public static LampMatrix createTestMatrix() {
+		PinballOutputController controller = PinballOutputControllerTest.createTestController();
+		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
+		PrefetchSimpleLampMatrix prefetchLampMatrix = new PrefetchSimpleLampMatrix(controller, 1);
+
+		return prefetchLampMatrix;
+	}
+
+	public static void main(String args[]) {
+		new LampMatrixTest(createTestMatrix()).execute();
 	}
 }

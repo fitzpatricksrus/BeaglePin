@@ -75,4 +75,7 @@ public class CompisiteOrLampPatternTest implements Test {
 		TimerUtil.INSTANCE.tick();
 	}
 
+	public static void main(String args[]) {
+		new CompisiteOrLampPatternTest(LampMatrixTest.createTestMatrix()).execute();
+	}
 }

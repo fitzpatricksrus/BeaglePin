@@ -39,4 +39,7 @@ public class FadingLampPatternTest implements Test {
 	private FadingLampPattern fadingPattern;
 	private final LampMatrix matrix;
 
+	public static void main(String args[]) {
+		new FadingLampPatternTest(LampMatrixTest.createTestMatrix()).execute();
+	}
 }

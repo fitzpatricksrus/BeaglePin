@@ -3,13 +3,11 @@ import us.cownet.lamps.PinballOutputController;
 import us.cownet.lamps.PrefetchSimpleLampMatrix;
 import us.cownet.lamps.SimpleLampMatrix;
 import us.cownet.lamps.tests.CompisiteOrLampPatternTest;
-import us.cownet.lamps.tests.DutyCycleDebugPinballOutputController;
 import us.cownet.lamps.tests.FadingLampPatternTest;
 import us.cownet.lamps.tests.GreyscaleLampPatternTest;
 import us.cownet.lamps.tests.LampMatrixTest;
 import us.cownet.lamps.tests.LampSequenceTest;
 import us.cownet.lamps.tests.PinballOutputControllerTest;
-import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
 
@@ -20,18 +18,7 @@ public class CowNetControllerV4 {
 	public static void main(String[] args) {
 
 		//------ controller based tests
-		PinballOutputController controller;
-		if (RUN_ON_WPC) {
-			controller = new WpcOutputController(
-					new String[]{"P8_37", "P8_38", "P8_39", "P8_40", "P8_41", "P8_42", "P8_43", "P8_44"},
-					new String[]{"P8_45", "P8_46"}
-			);
-		} else {
-//			controller = new DebugPinballOutputController();
-			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8, 512);
-			dc.init();
-			controller = dc;
-		}
+		PinballOutputController controller = PinballOutputControllerTest.createTestController();
 
 		PinballOutputControllerTest pinballOutputControllerTest
 				= new PinballOutputControllerTest(controller);

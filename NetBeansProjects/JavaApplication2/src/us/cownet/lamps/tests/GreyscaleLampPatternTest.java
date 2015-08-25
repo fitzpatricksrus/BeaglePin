@@ -42,4 +42,7 @@ public class GreyscaleLampPatternTest implements Test {
 		TimerUtil.INSTANCE.tick();
 	}
 
+	public static void main(String args[]) {
+		new GreyscaleLampPatternTest(LampMatrixTest.createTestMatrix()).execute();
+	}
 }

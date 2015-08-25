@@ -136,4 +136,7 @@ public class LampSequenceTest implements Test {
 		TimerUtil.INSTANCE.tick();
 	}
 
+	public static void main(String args[]) {
+		new LampSequenceTest(LampMatrixTest.createTestMatrix()).execute();
+	}
 }

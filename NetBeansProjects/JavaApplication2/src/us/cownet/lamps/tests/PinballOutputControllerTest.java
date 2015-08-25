@@ -1,6 +1,7 @@
 package us.cownet.lamps.tests;
 
 import us.cownet.lamps.PinballOutputController;
+import us.cownet.lamps.wpc.WpcOutputController;
 import us.cownet.testing.Test;
 import us.cownet.timers.Timer;
 import us.cownet.timers.TimerUtil;
@@ -43,4 +44,27 @@ public class PinballOutputControllerTest implements Test {
 	private int row;
 	private int col;
 	private Timer ticks;
+
+	public static PinballOutputController createTestController() {
+		PinballOutputController controller;
+		if (false) {
+			controller = new WpcOutputController(
+					new String[]{"P8_37", "P8_38", "P8_39", "P8_40", "P8_41", "P8_42", "P8_43", "P8_44"},
+					new String[]{"P8_45", "P8_46"}
+			);
+		} else {
+//			controller = new DebugPinballOutputController();
+			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8, 512);
+			dc.init();
+			controller = dc;
+		}
+		return controller;
+	}
+
+	public static void main(String args[]) {
+		PinballOutputController controller = PinballOutputControllerTest.createTestController();
+
+		PinballOutputControllerTest test = new PinballOutputControllerTest(controller);
+		test.execute();
+	}
 }
