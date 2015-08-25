@@ -46,7 +46,7 @@ public class TimerUtil {
 		return ticks;
 	}
 
-	public static TimerUtil INSTANCE = new TimerUtil();
+	public static final TimerUtil INSTANCE = new TimerUtil();
 	public static final long REAL_TICKS = -1;
 
 	private TimerUtil() {

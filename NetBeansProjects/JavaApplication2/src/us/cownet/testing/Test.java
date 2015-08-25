@@ -1,6 +1,7 @@
 package us.cownet.testing;
 
 import us.cownet.timers.Timer;
+import us.cownet.timers.TimerUtil;
 
 public interface Test {
 	public default void setup() {
@@ -14,14 +15,18 @@ public interface Test {
 	}
 
 	public default void execute() {
+		execute(2048L / 256);
+	}
+
+	public default void execute(long ticksPerLoop) {
 		long count = 0;
 		long tickCount = 0;
 		System.out.println("setup()");
 		setup();
 
-//		TimerUtil.INSTANCE.enableHackTicks(false);
+		TimerUtil.INSTANCE.enableHackTicks(false);
 		Timer ticks = new Timer(1000L * 1000L);
-		Timer loopTick = new Timer(100);
+		Timer loopTick = new Timer(ticksPerLoop);
 		while (!isDone()) {
 			if (loopTick.isTime()) {
 				loop();
@@ -33,16 +38,6 @@ public interface Test {
 				count = 0;
 				tickCount = 0;
 			}
-			/*			try {
-			 for (long i = 10000; i < 10000; i++) {
-			 long x = count;
-			 count = 0;
-			 count = x;
-			 }
-			 //				Thread.sleep(0, 1);
-			 } catch (Exception e) {
-
-			 } */
 		}
 	}
 
