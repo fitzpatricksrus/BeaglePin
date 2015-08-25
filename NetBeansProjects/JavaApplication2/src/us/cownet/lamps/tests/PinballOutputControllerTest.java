@@ -57,6 +57,6 @@ public class PinballOutputControllerTest implements Test {
 		PinballOutputController controller = PinballOutputControllerTest.createTestController();
 
 		PinballOutputControllerTest test = new PinballOutputControllerTest(controller);
-		test.execute();
+		test.execute(100L * 1000L);
 	}
 }

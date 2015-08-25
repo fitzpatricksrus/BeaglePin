@@ -11,8 +11,8 @@ public interface LampMatrix {
 	 attached on the new lamp pattern.  The entire life cycle looks like this:
 
 	 attached()
-	 --getColumn()
 	 --getColCount()
+	 --getColumn()
 	 --endOfMatrixSync() // callback is called here
 	 detached()
 

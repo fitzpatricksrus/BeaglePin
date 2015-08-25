@@ -4,7 +4,7 @@ package us.cownet.lamps;
  Simply take the whole pattern and fade it up or down as a whole.  All lamps have the same
  brightness.  One time deal.  Fade and then sit.
  */
-public class FadingLampPattern extends ContainerLampPattern {
+public class FadingLampPattern implements LampPattern {
 	//Here's the basic algorithm.
 	//	int fadeSpeed = 10;
 	//	for (int flipNdx = 0; flipNdx <= fadeSpeed; flipNdx++) {
@@ -23,14 +23,14 @@ public class FadingLampPattern extends ContainerLampPattern {
 	};
 
 	public FadingLampPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
-		super(pattern);
+		sourcePattern = pattern;
 		this.fadeSpeed = fadeSpeed;
 		this.fadeDirection = direction;
 		reset();
 	}
 
 	public void setPattern(LampPattern pattern, FadeDirection direction, int fadeSpeed) {
-		super.setLampPattern(pattern);
+		sourcePattern = pattern;
 		this.fadeSpeed = fadeSpeed;
 		this.fadeDirection = direction;
 		reset();
@@ -48,7 +48,7 @@ public class FadingLampPattern extends ContainerLampPattern {
 		//  }
 		if (fadeDirection == FadeDirection.FADE_ON) {
 			if (cycle < flipNdx) {
-				return super.getColumn(x);
+				return sourcePattern.getColumn(x);
 			} else {
 				return 0;
 			}
@@ -56,19 +56,24 @@ public class FadingLampPattern extends ContainerLampPattern {
 			if (cycle < flipNdx) {
 				return 0;
 			} else {
-				return super.getColumn(x);
+				return sourcePattern.getColumn(x);
 			}
 		}
 	}
 
 	@Override
 	public int getColCount() {
-		return super.getColCount();
+		return sourcePattern.getColCount();
+	}
+
+	@Override
+	public boolean getLamp(int x, int y) {
+		return sourcePattern.getLamp(x, y);
 	}
 
 	@Override
 	public void attached() {
-		super.attached();
+		sourcePattern.attached();
 		reset();
 	}
 
@@ -83,7 +88,7 @@ public class FadingLampPattern extends ContainerLampPattern {
 		//    }
 		//  }
 
-		super.endOfMatrixSync();
+		sourcePattern.endOfMatrixSync();
 		cycle++;
 		if (cycle >= fadeSpeed) {
 			flipNdx = Math.min(flipNdx + 1, fadeSpeed + 1);
@@ -96,10 +101,16 @@ public class FadingLampPattern extends ContainerLampPattern {
 		cycle = 0;
 	}
 
+	@Override
+	public void detached() {
+		sourcePattern.detached();
+	}
+
 	public boolean isDone() {
 		return flipNdx > fadeSpeed;
 	}
 
+	private LampPattern sourcePattern;
 	private FadeDirection fadeDirection;
 	private int fadeSpeed;
 	private int flipNdx;
@@ -140,4 +151,5 @@ public class FadingLampPattern extends ContainerLampPattern {
 			fadingPattern.endOfMatrixSync();
 		}
 	}
+
 }
