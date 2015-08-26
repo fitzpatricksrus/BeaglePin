@@ -32,14 +32,79 @@ public class GreyscaleLampPatternTest implements Test {
 			}
 		}
 
-//		AbstractGreyscaleLampPattern pattern = new AbstractGreyscaleLampPattern.Pattern(patternValues);
-		AbstractGreyscaleLampPattern pattern = new AbstractGreyscaleLampPattern.Pattern2();
+//		AbstractGreyscaleLampPattern pattern = new Pattern(patternValues);
+		AbstractGreyscaleLampPattern pattern = new Pattern2();
 		greyLampMatrix.setPattern(pattern);
 	}
 
 	@Override
 	public void loop() {
 		TimerUtil.INSTANCE.tick();
+	}
+
+	// simple greyscale from lamp 0 - 63
+	public static class Pattern extends AbstractGreyscaleLampPattern {
+		private int greyPattern[][];
+
+		public Pattern(int[][] greyPattern) {
+			this(greyPattern, 8);
+		}
+
+		public Pattern(int[][] greyPattern, int grayscaleBits) {
+			this(greyPattern, grayscaleBits, 0);
+		}
+
+		public Pattern(int[][] greyPattern, int grayscaleBits, int startPosition) {
+			this.greyPattern = greyPattern;
+			setPattern(grayscaleBits, startPosition);
+		}
+
+		@Override
+		public int getColCount() {
+			return greyPattern[0].length;
+		}
+
+		@Override
+		protected int getLampValue(int col, int row) {
+			return greyPattern[col][row];
+		}
+	}
+
+	// pulsing lamp pattern
+	public static class Pattern2 extends AbstractGreyscaleLampPattern {
+		private int position = 0;
+
+		public Pattern2() {
+			this(8);
+		}
+
+		public Pattern2(int grayscaleBits) {
+			this(grayscaleBits, 0);
+		}
+
+		public Pattern2(int grayscaleBits, int startPosition) {
+			setPattern(grayscaleBits, startPosition);
+		}
+
+		@Override
+		public int getColCount() {
+			return 8;
+		}
+
+		@Override
+		protected int getLampValue(int col, int row) {
+			int ndx = col * 8 + row;	// 0 - 63
+			int adj = Math.abs(((position + ndx) % 128) - 64);	// -64..64
+//			if (ndx == 0) {
+//				System.out.println(Math.min(adj * 4, 255));
+//			}
+			return Math.min(adj * 4, 255);
+		}
+
+		@Override
+		protected void greyscaleEndOfSync() {
+			position = (position + 1) % 128;
+		}
 	}
 
 	public static void main(String args[]) {

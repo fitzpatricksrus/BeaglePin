@@ -1,10 +1,6 @@
 package us.cownet.lamps.tests;
 
-import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.PrefetchSimpleLampMatrix;
-import us.cownet.lamps.SimpleLampMatrix;
-import us.cownet.lamps.SimpleLampPattern;
+import us.cownet.lamps.*;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
@@ -43,7 +39,7 @@ public class LampMatrixTest implements Test {
 		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
 		PrefetchSimpleLampMatrix prefetchLampMatrix = new PrefetchSimpleLampMatrix(controller, 1);
 
-		return prefetchLampMatrix;
+		return lampMatrix;
 	}
 
 	public static void main(String args[]) {
