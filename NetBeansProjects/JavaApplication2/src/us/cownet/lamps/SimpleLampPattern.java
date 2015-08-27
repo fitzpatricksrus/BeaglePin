@@ -1,10 +1,25 @@
 package us.cownet.lamps;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class SimpleLampPattern implements LampPattern {
 	private int[] pattern;
 
 	public SimpleLampPattern(int[] pattern) {
 		this.pattern = pattern;
+	}
+
+	@Override
+	public SimpleLampPattern clone() {
+		try {
+			SimpleLampPattern result = (SimpleLampPattern)super.clone();
+			result.setPattern(getPattern().clone());
+			return result;
+		} catch (CloneNotSupportedException ex) {
+			Logger.getLogger(SimpleLampPattern.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
 	}
 
 	public int[] getPattern() {
@@ -53,5 +68,33 @@ public class SimpleLampPattern implements LampPattern {
 
 	@Override
 	public void detached() {
+	}
+
+	public void allOn() {
+
+	}
+
+	public void allOff() {
+
+	}
+
+	public void union(LampPattern other) {
+		int colCount = Math.min(getColCount(), other.getColCount());
+		for (int col = 0; col < colCount; col++) {
+			for (int row = 0; row < 8; row++) {
+				if (!getLamp(col, row)) {
+					setLamp(col, row, other.getLamp(col, row));
+				}
+			}
+		}
+	}
+
+	public void difference(LampPattern other) {
+		int colCount = Math.min(getColCount(), other.getColCount());
+		for (int col = 0; col < colCount; col++) {
+			for (int row = 0; row < 8; row++) {
+				setLamp(col, row, getLamp(col, row) != other.getLamp(col, row));
+			}
+		}
 	}
 }
