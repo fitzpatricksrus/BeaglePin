@@ -56,5 +56,4 @@ public class WpcOutputController implements PinballOutputController {
 		signalPins[signal.ordinal()].write(Signal.Low);
 		signalPins[signal.ordinal()].write(Signal.High);
 	}
-
 }

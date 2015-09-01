@@ -20,4 +20,11 @@ public interface PinballOutputController {
 	/* Write to the specified data input source */
 	public void write(Register signal, byte value);
 
+	public default void writeRow(byte value) {
+		write(Register.LAMP_ROW, value);
+	}
+
+	public default void writeCol(byte value) {
+		write(Register.LAMP_COL, value);
+	}
 }

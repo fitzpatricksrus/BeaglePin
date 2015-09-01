@@ -46,16 +46,16 @@ public class SimpleLampMatrix implements LampMatrix {
 	}
 
 	private void tock() {
-		controller.write(PinballOutputController.Register.LAMP_COL, (byte)0);
-		controller.write(PinballOutputController.Register.LAMP_ROW, attachedPattern.getColumn(currentColumn));
-		controller.write(PinballOutputController.Register.LAMP_COL, (byte)(1 << currentColumn));
+		controller.writeCol((byte)0);
+		controller.writeRow(internalGetColumn(attachedPattern, currentColumn));
+		controller.writeCol((byte)(1 << currentColumn));
 		currentColumn = (currentColumn + 1) % attachedPattern.getColCount();
 		if (currentColumn == 0) {
 			// we've finished refressing the matrix one complete cycle.
 			if (syncCallback != null) {
 				syncCallback.call();
 			}
-			attachedPattern.endOfMatrixSync();
+			internalEndOfMatrixSync(attachedPattern);
 			// transition from one pattern to next on sync
 			internalSetPattern(nextPattern);
 			if (attachedPattern == null) {	//note currentPattern == nextPattern here
@@ -69,7 +69,11 @@ public class SimpleLampMatrix implements LampMatrix {
 		this.syncCallback = callback;
 	}
 
-	private void internalSetPattern(LampPattern newPattern) {
+	protected byte internalGetColumn(LampPattern pattern, int columnNumber) {
+		return pattern.getColumn(columnNumber);
+	}
+
+	protected void internalSetPattern(LampPattern newPattern) {
 		if (attachedPattern != newPattern) {
 			if (attachedPattern != null) {
 				attachedPattern.detached();
@@ -79,6 +83,10 @@ public class SimpleLampMatrix implements LampMatrix {
 				attachedPattern.attached();
 			}
 		}
+	}
+
+	protected void internalEndOfMatrixSync(LampPattern pattern) {
+		pattern.endOfMatrixSync();
 	}
 
 }

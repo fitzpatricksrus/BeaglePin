@@ -6,6 +6,10 @@ import java.util.logging.Logger;
 public class SimpleLampPattern implements LampPattern {
 	private int[] pattern;
 
+	public SimpleLampPattern(int columnCount) {
+		this.pattern = new int[columnCount];
+	}
+
 	public SimpleLampPattern(int[] pattern) {
 		this.pattern = pattern;
 	}
@@ -71,11 +75,17 @@ public class SimpleLampPattern implements LampPattern {
 	}
 
 	public void allOn() {
-
+		int p[] = getPattern();
+		for (int i = 0; i < p.length; i++) {
+			p[i] = -1;
+		}
 	}
 
 	public void allOff() {
-
+		int p[] = getPattern();
+		for (int i = 0; i < p.length; i++) {
+			p[i] = 0;
+		}
 	}
 
 	public void union(LampPattern other) {
@@ -90,6 +100,7 @@ public class SimpleLampPattern implements LampPattern {
 	}
 
 	public void difference(LampPattern other) {
+		// hey jf - this method doesn't deal with column counts correctly
 		int colCount = Math.min(getColCount(), other.getColCount());
 		for (int col = 0; col < colCount; col++) {
 			for (int row = 0; row < 8; row++) {

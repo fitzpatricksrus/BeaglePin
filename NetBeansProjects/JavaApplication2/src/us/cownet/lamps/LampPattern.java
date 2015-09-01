@@ -38,6 +38,7 @@ public interface LampPattern {
 	}
 
 	public default boolean getLamp(int index) {
+		// hey jf - this assumes an 8 light row size.
 		return getLamp(index >>> 3, index & 0b00000111);
 	}
 
