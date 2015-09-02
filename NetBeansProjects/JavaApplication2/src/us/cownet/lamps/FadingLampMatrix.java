@@ -2,7 +2,7 @@ package us.cownet.lamps;
 
 /*
  A lamp matrix where transitions between off/on happen slowly.  Bulbs each
- have thier own state and can rise and fall individually.
+ have their own state and can rise and fall individually.
 
  todo:
  deal with patterns of size different from matrix size
