@@ -50,6 +50,11 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	}
 
 	@Override
+	public int getColumnCount() {
+		return colCount;
+	}
+
+	@Override
 	public void write(PinballOutputController.Register signal, byte value) {
 		if (!isInited) {
 			init();

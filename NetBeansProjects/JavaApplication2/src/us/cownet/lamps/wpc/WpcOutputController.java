@@ -38,6 +38,11 @@ public class WpcOutputController implements PinballOutputController {
 //    }
 	private static final int MASK[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 
+	@Override
+	public int getColumnCount() {
+		return 8;
+	}
+
 	/* Write to the specified data input source */
 	public void write(Register signal, byte value) {
 //        if (value == cachedData[signal.ordinal()]) {

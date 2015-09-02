@@ -17,6 +17,8 @@ public interface PinballOutputController {
 
 	public static final int SIGNAL_COUNT = Register.LAMP_COL.ordinal() + 1;
 
+	public int getColumnCount();
+
 	/* Write to the specified data input source */
 	public void write(Register signal, byte value);
 
