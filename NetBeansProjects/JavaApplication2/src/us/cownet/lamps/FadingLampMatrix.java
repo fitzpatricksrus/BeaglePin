@@ -2,59 +2,44 @@ package us.cownet.lamps;
 
 /*
  A lamp matrix where transitions between off/on happen slowly.
+ As an optimization, lamps can't be turned on/off in mid-transition.
+ They need to be completely on or completely off before the pattern
+ is changed.  This allows the entire matrix to be treated as a unit
+ and state doesn't need to be kept on a bulb per bulb basis.
  */
-public class FadingLampMatrix extends SimpleLampMatrix {
-	private int speed;
+public class FadingLampMatrix extends CyclicLampMatrix {
 	private int pixels[][];
 	private int pixelDirection[][];
 	private int flipNdx;
-	private int cycle;
+	private int mask[];
 
-	public FadingLampMatrix(PinballOutputController controller, long ticks) {
-		super(controller, ticks);
-		this.speed = speed;
+	public FadingLampMatrix(PinballOutputController controller, long ticks, int speed) {
+		super(controller, ticks, speed);
 		pixels = new int[8][8];
 		pixelDirection = new int[8][8];
-		cycle = 0;
+		mask = new int[speed];
+		for (int i = 0; i < 256; i++) {
+			mask[i] = (int)Math.pow(2, Math.floor(Math.log(i) / Math.log(2)));
+		}
 	}
 
+	@Override
 	protected byte internalGetColumn(LampPattern pattern, int columnNumber) {
 		byte value = 0;
 
 		for (int row = 0; row < 8; row++) {
 			value <<= 1;
-			boolean lamp = pattern.getLamp(columnNumber, row);
-
+			if (pattern.getLamp(columnNumber, row)) {
+			}
+//			if (((lamp ? 1 : 0) & mask[getCycle()];
 		}
 
 		return value;
 	}
 
-	protected void internalSetPattern(LampPattern newPattern) {
-		super.internalSetPattern(newPattern);
-		if (newPattern != null) {
-			for (int col = 0; col < newPattern.getColCount(); col++) {
-				for (int row = 0; row < 8; row++) {
-					if (newPattern.getLamp(col, row)) {
-						// pixel is getting brighter
-						pixelDirection[col][row] = 1;
-					} else {
-						// pixel starts getting dimmer
-						pixelDirection[col][row] = -1;
-					}
-				}
-			}
-		} else {
-			for (int col = 0; col < 8; col++) {
-				for (int row = 0; row < 8; row++) {
-					pixelDirection[col][row] = -1;
-				}
-			}
+	public static void main(String args[]) {
+		for (int i = 0; i < 256; i++) {
+			System.out.println("" + i + " " + Math.pow(2, Math.floor(Math.log(i) / Math.log(2))));
 		}
-	}
-
-	protected void internalEndOfMatrixSync(LampPattern pattern) {
-		super.internalEndOfMatrixSync(pattern);
-		cycle = Math.min(cycle + 1, 255);
 	}
 }
