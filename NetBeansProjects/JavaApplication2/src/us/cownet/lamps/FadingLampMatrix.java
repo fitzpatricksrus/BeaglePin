@@ -10,15 +10,13 @@ package us.cownet.lamps;
 public class FadingLampMatrix extends CyclicLampMatrix {
 	private int pixels[][];
 	private int mask[];
-	private int speed;
 
 	public FadingLampMatrix(PinballOutputController controller, long ticks, int fadeSpeed) {
 		super(controller, ticks, fadeSpeed);
-		this.speed = speed;
 		pixels = new int[controller.getColumnCount()][8];
-		mask = new int[speed];
-		for (int i = 0; i < speed; i++) {
-			mask[i] = (int)Math.pow(2, Math.floor(Math.log(Math.min(speed - 1, i + 1)) / Math.log(2)));
+		mask = new int[fadeSpeed];
+		for (int i = 0; i < fadeSpeed; i++) {
+			mask[i] = (int)Math.pow(2, Math.floor(Math.log(Math.min(fadeSpeed - 1, i + 1)) / Math.log(2)));
 		}
 	}
 
@@ -38,17 +36,12 @@ public class FadingLampMatrix extends CyclicLampMatrix {
 	}
 
 	@Override
-	protected void internalSetPattern(LampPattern newPattern) {
-		super.internalSetPattern(newPattern);
-	}
-
-	@Override
 	protected void internalEndOfCycle() {
 		LampPattern pattern = getDisplayedPattern();
 		for (int col = 0; col < pixels[0].length; col++) {
 			for (int row = 0; row < 8; row++) {
 				if (pattern.getLamp(col, row)) {
-					pixels[col][row] = Math.min(pixels[col][row] + 1, speed);
+					pixels[col][row] = Math.min(pixels[col][row] + 1, getCycleSize());
 				} else {
 					pixels[col][row] = Math.max(pixels[col][row] - 1, 0);
 				}

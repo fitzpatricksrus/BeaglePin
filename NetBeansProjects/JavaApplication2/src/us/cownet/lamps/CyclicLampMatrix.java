@@ -32,6 +32,10 @@ public class CyclicLampMatrix extends SimpleLampMatrix {
 		return currentCycle;
 	}
 
+	protected int getCycleSize() {
+		return cycleSize;
+	}
+
 	protected void internalEndOfCycle() {
 	}
 }
