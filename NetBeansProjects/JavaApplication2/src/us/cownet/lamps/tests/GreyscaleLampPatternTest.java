@@ -32,6 +32,7 @@ public class GreyscaleLampPatternTest implements Test {
 			}
 		}
 
+//		GreyscaleLampPattern pattern = new GreyscaleLampPattern(patternValues);
 //		AbstractGreyscaleLampPattern pattern = new Pattern(patternValues);
 		AbstractGreyscaleLampPattern pattern = new Pattern2();
 		greyLampMatrix.setPattern(pattern);

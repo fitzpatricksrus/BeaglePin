@@ -56,28 +56,21 @@ public class GreyscaleLampPattern implements LampPattern {
 		int next = 0;
 		for (int i = 0; i < grayscaleBits; i++) {
 			mask[i] = 1 << i;
-//			System.out.println(MASK[i]);
 			for (int j = 0; j < mask[i]; j++) {
 				index[next++] = i;
 			}
 		}
-//		System.out.println("mask: " + Arrays.toString(mask));
-//		System.out.println("index: " + Arrays.toString(index));
 
 		int colCount = greyPattern.length;
 		int rowCount = greyPattern[0].length;
 		for (int i = 0; i < grayscaleBits; i++) {
 			patterns[i] = new SimpleLampPattern(new int[colCount]);
-//			System.out.println("Bit plane " + i);
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < rowCount; row++) {
 					boolean isOn = (greyPattern[col][row] & mask[i]) != 0;
 					patterns[i].setLamp(col, row, isOn);
-//					System.out.print(isOn ? "1" : "0");
 				}
-//				System.out.println();
 			}
-//			System.out.println();
 		}
 	}
 

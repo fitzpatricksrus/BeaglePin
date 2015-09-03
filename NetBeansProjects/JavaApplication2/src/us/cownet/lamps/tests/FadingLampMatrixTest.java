@@ -36,7 +36,7 @@ public class FadingLampMatrixTest implements Test {
 
 	private static final SimpleLampPattern pattern1 = new SimpleLampPattern(patternValues1);
 	private static final SimpleLampPattern pattern2 = new SimpleLampPattern(patternValues2);
-	private Ticker ticker = new Ticker(1500L * 1000L);
+	private Ticker ticker = new Ticker(200L * 1000L);
 
 	@Override
 	public void setup() {
@@ -57,8 +57,7 @@ public class FadingLampMatrixTest implements Test {
 
 	public static LampMatrix createTestMatrix() {
 		PinballOutputController controller = PinballOutputControllerTest.createTestController();
-		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
-		FadingLampMatrix prefetchLampMatrix = new FadingLampMatrix(controller, 1, 255);
+		FadingLampMatrix prefetchLampMatrix = new FadingLampMatrix(controller, 0, 127);
 
 		return prefetchLampMatrix;
 	}

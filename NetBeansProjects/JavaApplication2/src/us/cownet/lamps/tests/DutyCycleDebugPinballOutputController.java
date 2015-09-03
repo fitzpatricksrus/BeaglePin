@@ -22,7 +22,6 @@ public class DutyCycleDebugPinballOutputController extends Canvas implements Pin
 	static {
 		for (int i = 0; i <= 100; i++) {
 			int value = 258 * i / 101;
-			System.out.println("" + i + "  " + value);
 			greys[i] = new Color(value, value, value);
 		}
 	}
