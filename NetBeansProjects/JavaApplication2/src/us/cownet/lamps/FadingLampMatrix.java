@@ -12,13 +12,13 @@ public class FadingLampMatrix extends CyclicLampMatrix {
 	private int mask[];
 	private int speed;
 
-	public FadingLampMatrix(PinballOutputController controller, long ticks, int speed) {
-		super(controller, ticks, speed);
+	public FadingLampMatrix(PinballOutputController controller, long ticks, int fadeSpeed) {
+		super(controller, ticks, fadeSpeed);
 		this.speed = speed;
 		pixels = new int[controller.getColumnCount()][8];
 		mask = new int[speed];
-		for (int i = 0; i < 256; i++) {
-			mask[i] = (int)Math.pow(2, Math.floor(Math.log(i) / Math.log(2)));
+		for (int i = 0; i < speed; i++) {
+			mask[i] = (int)Math.pow(2, Math.floor(Math.log(Math.min(speed - 1, i + 1)) / Math.log(2)));
 		}
 	}
 
@@ -57,8 +57,10 @@ public class FadingLampMatrix extends CyclicLampMatrix {
 	}
 
 	public static void main(String args[]) {
-		for (int i = 0; i < 256; i++) {
-			System.out.println("" + i + " " + Math.pow(2, Math.floor(Math.log(i) / Math.log(2))));
+		int speed = 32;
+		for (int i = 0; i < speed; i++) {
+			int num = (int)Math.pow(2, Math.floor(Math.log(Math.min(speed - 1, i + 1)) / Math.log(2)));
+			System.out.println("" + i + " " + Integer.toBinaryString(num));
 		}
 	}
 }
