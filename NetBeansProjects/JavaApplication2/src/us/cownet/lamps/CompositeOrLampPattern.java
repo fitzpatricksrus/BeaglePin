@@ -71,5 +71,5 @@ public class CompositeOrLampPattern implements LampPattern {
 		}
 	}
 
-	private ArrayList<LampPattern> patterns;
+	private final ArrayList<LampPattern> patterns;
 }

@@ -1,6 +1,9 @@
 package us.cownet.lamps.tests;
 
-import us.cownet.lamps.*;
+import us.cownet.lamps.FadingLampMatrix;
+import us.cownet.lamps.LampMatrix;
+import us.cownet.lamps.PinballOutputController;
+import us.cownet.lamps.SimpleLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.Ticker;
 import us.cownet.timers.TimerUtil;
@@ -10,7 +13,7 @@ public class FadingLampMatrixTest implements Test {
 		this.matrix = matrix;
 	}
 
-	private LampMatrix matrix;
+	private final LampMatrix matrix;
 
 	private static final int patternValues1[] = {
 		0b10000001,
@@ -36,7 +39,7 @@ public class FadingLampMatrixTest implements Test {
 
 	private static final SimpleLampPattern pattern1 = new SimpleLampPattern(patternValues1);
 	private static final SimpleLampPattern pattern2 = new SimpleLampPattern(patternValues2);
-	private Ticker ticker = new Ticker(200L * 1000L);
+	private final Ticker ticker = new Ticker(200L * 1000L);
 
 	@Override
 	public void setup() {
