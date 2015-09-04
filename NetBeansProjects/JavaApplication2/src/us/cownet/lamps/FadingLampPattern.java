@@ -96,6 +96,7 @@ public class FadingLampPattern implements LampPattern {
 		}
 	}
 
+	@Override
 	public void reset() {
 		flipNdx = 0;
 		cycle = 0;
@@ -106,6 +107,7 @@ public class FadingLampPattern implements LampPattern {
 		sourcePattern.detached();
 	}
 
+	@Override
 	public boolean isDone() {
 		return flipNdx > fadeSpeed;
 	}

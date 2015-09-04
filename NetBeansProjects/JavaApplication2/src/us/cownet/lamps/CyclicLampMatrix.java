@@ -1,7 +1,7 @@
 package us.cownet.lamps;
 
 // Matrix that only allowed pattern changes after a set number of cycles.
-public class CyclicLampMatrix extends SimpleLampMatrix {
+public class CyclicLampMatrix extends PrefetchSimpleLampMatrix {
 
 	private final int cycleSize;
 	private int currentCycle;

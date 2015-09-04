@@ -8,8 +8,8 @@ package us.cownet.lamps;
  deal with patterns of size different from matrix size
  */
 public class FadingLampMatrix extends CyclicLampMatrix {
-	private int pixels[][];
-	private int mask[];
+	private final int pixels[][];
+	private final int mask[];
 
 	public FadingLampMatrix(PinballOutputController controller, long ticks, int fadeSpeed) {
 		super(controller, ticks, fadeSpeed);
