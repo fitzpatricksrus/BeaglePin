@@ -34,7 +34,7 @@ public interface Test {
 			}
 			count++;
 			if (ticks.isTime()) {
-				System.out.println("Frequency: " + count + ",  ticks: " + tickCount);
+//				System.out.println("Frequency: " + count + ",  ticks: " + tickCount);
 				count = 0;
 				tickCount = 0;
 			}

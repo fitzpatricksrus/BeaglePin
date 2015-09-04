@@ -1,10 +1,6 @@
 package us.cownet.lamps.tests;
 
-import us.cownet.lamps.FadingLampPattern;
-import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.LampPattern;
-import us.cownet.lamps.LampSequence;
-import us.cownet.lamps.SimpleLampPattern;
+import us.cownet.lamps.*;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
@@ -17,7 +13,7 @@ public class LampSequenceTest implements Test {
 	}
 
 	private LampPattern createOnOffPattern(int patternSource[]) {
-		final int speed = 255;
+		final int speed = 15;
 		SimpleLampPattern sourcePattern = new SimpleLampPattern(patternSource);
 		FadingLampPattern fadeOnPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_ON, speed);

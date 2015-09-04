@@ -37,9 +37,9 @@ public class LampMatrixTest implements Test {
 	public static LampMatrix createTestMatrix() {
 		PinballOutputController controller = PinballOutputControllerTest.createTestController();
 		SimpleLampMatrix lampMatrix = new SimpleLampMatrix(controller, 1);
-		PrefetchSimpleLampMatrix prefetchLampMatrix = new PrefetchSimpleLampMatrix(controller, 1);
+		PrefetchSimpleLampMatrix prefetchLampMatrix = new PrefetchSimpleLampMatrix(controller, 0);
 
-		return lampMatrix;
+		return prefetchLampMatrix;
 	}
 
 	public static void main(String args[]) {

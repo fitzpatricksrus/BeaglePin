@@ -39,14 +39,15 @@ public class PinballOutputControllerTest implements Test {
 
 	public static PinballOutputController createTestController() {
 		PinballOutputController controller;
-		if (false) {
+		if (true) {
 			controller = new WpcOutputController(
 					new String[]{"P8_37", "P8_38", "P8_39", "P8_40", "P8_41", "P8_42", "P8_43", "P8_44"},
 					new String[]{"P8_45", "P8_46"}
 			);
 		} else {
 //			controller = new DebugPinballOutputController();
-			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8, 512);
+			DebugPinballOutputController dc = new DebugPinballOutputController();
+//			DutyCycleDebugPinballOutputController dc = new DutyCycleDebugPinballOutputController(8, 8, 512);
 			dc.init();
 			controller = dc;
 		}
@@ -57,6 +58,7 @@ public class PinballOutputControllerTest implements Test {
 		PinballOutputController controller = PinballOutputControllerTest.createTestController();
 
 		PinballOutputControllerTest test = new PinballOutputControllerTest(controller);
-		test.execute(100L * 1000L);
+//		test.execute(100L * 1000L);
+		test.execute(10L * 1000L);
 	}
 }
