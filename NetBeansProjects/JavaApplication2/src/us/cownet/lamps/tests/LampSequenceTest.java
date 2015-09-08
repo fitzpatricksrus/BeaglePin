@@ -133,6 +133,6 @@ public class LampSequenceTest implements Test {
 	}
 
 	public static void main(String args[]) {
-		new LampSequenceTest(LampMatrixTest.createTestMatrix()).execute();
+		new LampSequenceTest(LampMatrixTest.createTestMatrix()).execute(256);
 	}
 }

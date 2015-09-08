@@ -11,6 +11,5 @@ public class CowNetControllerV4 {
 //		GreyscaleLampPatternTest.main(args);
 //		LampSequenceTest.main(args);
 		FadingLampMatrixTest.main(args);
-
 	}
 }

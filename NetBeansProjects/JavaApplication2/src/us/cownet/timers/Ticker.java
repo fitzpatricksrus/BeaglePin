@@ -14,6 +14,9 @@ public class Ticker implements PeriodicEvent {
 	}
 
 	public boolean isTime() {
+		if (periodTicks == 0) {
+			return true;
+		}
 		long now = TimerUtil.INSTANCE.currentTicks();
 		if (now - lastTick > periodTicks) {
 			lastTick = now;

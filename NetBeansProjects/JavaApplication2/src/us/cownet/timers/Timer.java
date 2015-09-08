@@ -14,6 +14,9 @@ public class Timer implements PeriodicEvent {
 	}
 
 	public boolean isTime() {
+		if (periodMicros == 0) {
+			return true;
+		}
 		long now = TimerUtil.INSTANCE.currentTimeMicros();
 		if (now - lastTick > periodMicros) {
 			lastTick = now;

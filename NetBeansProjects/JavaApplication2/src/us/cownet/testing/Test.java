@@ -15,29 +15,29 @@ public interface Test {
 	}
 
 	public default void execute() {
-		execute(2048L / 256);
+		execute(0 /*2048L / 512*/);
 	}
 
 	public default void execute(long ticksPerLoop) {
-		long count = 0;
-		long tickCount = 0;
+//		long count = 0;
+//		long tickCount = 0;
 		System.out.println("setup()");
 		setup();
 
 		TimerUtil.INSTANCE.enableHackTicks(false);
-		Timer ticks = new Timer(1000L * 1000L);
+//		Timer ticks = new Timer(1000L * 1000L);
 		Timer loopTick = new Timer(ticksPerLoop);
 		while (!isDone()) {
 			if (loopTick.isTime()) {
 				loop();
-				tickCount++;
+//				tickCount++;
 			}
-			count++;
-			if (ticks.isTime()) {
+//			count++;
+//			if (ticks.isTime()) {
 //				System.out.println("Frequency: " + count + ",  ticks: " + tickCount);
-				count = 0;
-				tickCount = 0;
-			}
+//				count = 0;
+//				tickCount = 0;
+//			}
 		}
 	}
 
