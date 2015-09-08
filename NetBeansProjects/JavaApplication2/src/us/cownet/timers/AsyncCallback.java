@@ -16,9 +16,17 @@ public class AsyncCallback implements Callback {
 				@SuppressWarnings("empty-statement")
 				public void run() {
 					while (ping());
+					callbackThread = null;
 				}
 			};
+			callbackThread.setPriority(Thread.MIN_PRIORITY);
+			callbackThread.setDaemon(true);
+			callbackThread.start();
 		}
+	}
+
+	public synchronized void done() {
+		callbacks.remove(this);
 	}
 
 	private synchronized boolean ping() {
