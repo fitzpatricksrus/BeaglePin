@@ -13,12 +13,16 @@ public class Notifier {
 		this.pendingNotifications = 0;
 	}
 
-	public synchronized void addListener(Callback listener) {
-		listeners.add(listener);
+	public void addListener(Callback listener) {
+		synchronized (listeners) {
+			listeners.add(listener);
+		}
 	}
 
-	public synchronized void removeListener(Callback listener) {
-		listeners.remove(listener);
+	public void removeListener(Callback listener) {
+		synchronized (listeners) {
+			listeners.remove(listener);
+		}
 	}
 
 	public synchronized void notifyListeners() {
@@ -45,8 +49,10 @@ public class Notifier {
 		public void run() {
 			while (true) {
 				waitForPendingNotifications();
-				for (Callback n : listeners) {
-					n.call();
+				synchronized (listeners) {
+					for (Callback n : listeners) {
+						n.call();
+					}
 				}
 			}
 		}
