@@ -15,6 +15,11 @@ public class Notifier {
 
 	public void addListener(Callback listener) {
 		synchronized (listeners) {
+			if (listeners.isEmpty()) {
+				// assertTrue(thread == null);
+				thread = new Thread(new NotifierRunnable());
+				thread.start();
+			}
 			listeners.add(listener);
 		}
 	}
@@ -22,6 +27,14 @@ public class Notifier {
 	public void removeListener(Callback listener) {
 		synchronized (listeners) {
 			listeners.remove(listener);
+			if (listeners.isEmpty()) {
+				pendingNotifications = -1;
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+				}
+				thread = null;
+			}
 		}
 	}
 
@@ -30,25 +43,29 @@ public class Notifier {
 		this.notifyAll();
 	}
 
-	private synchronized void waitForPendingNotifications() {
+	private synchronized boolean waitForPendingNotifications() {
 		while (pendingNotifications == 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 			}
 		}
-		if (compressNotifications) {
-			pendingNotifications = 0;
+		if (pendingNotifications < 0) {
+			return false;		// we're done.  terminate the thread.
 		} else {
-			pendingNotifications--;
+			if (compressNotifications) {
+				pendingNotifications = 0;
+			} else {
+				pendingNotifications--;
+			}
+			return true;
 		}
 	}
 
-	private class NotifierThread implements Runnable {
+	private class NotifierRunnable implements Runnable {
 		@Override
 		public void run() {
-			while (true) {
-				waitForPendingNotifications();
+			while (waitForPendingNotifications()) {
 				synchronized (listeners) {
 					for (Callback n : listeners) {
 						n.call();
@@ -61,4 +78,5 @@ public class Notifier {
 	private final HashSet<Callback> listeners;
 	private final boolean compressNotifications;
 	private int pendingNotifications;
+	private Thread thread;
 }
