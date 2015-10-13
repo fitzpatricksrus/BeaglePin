@@ -6,7 +6,7 @@ package us.cownet.lamps;
  The actual data is supplied by subclasses so it can be produced algorithmcally
  if needed.
  */
-public abstract class AbstractGreyscaleLampPattern implements LampPattern {
+public abstract class AbstractGreyscaleLampPattern implements MatrixLampPattern {
 
 	public AbstractGreyscaleLampPattern() {
 		this(8);

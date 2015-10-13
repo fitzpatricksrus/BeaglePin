@@ -20,27 +20,15 @@ package us.cownet.lamps;
 
  */
 public interface LampPattern {
-	public default byte getColumn(int x) {
-		byte result = 0;
-		for (int i = 0; i < getColCount(); i++) {
-			result <<= 1;
-			if (getLamp(x, i)) {
-				result |= 1;
-			}
-		}
-		return result;
-	}
+	public byte getColumn(int x);
 
 	public int getColCount();
 
-	public default boolean getLamp(int x, int y) {
-		return (getColumn(x) & (1 << y)) != 0;
-	}
+	public int getLampCount();
 
-	public default boolean getLamp(int index) {
-		// hey jf - this assumes an 8 light row size.
-		return getLamp(index >>> 3, index & 0b00000111);
-	}
+	public boolean getLamp(int x, int y);
+
+	public boolean getLamp(int index);
 
 	public default void attached() {
 	}

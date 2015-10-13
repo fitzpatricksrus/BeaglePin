@@ -2,7 +2,7 @@ package us.cownet.lamps;
 
 import java.util.ArrayList;
 
-public class CompositeOrLampPattern implements LampPattern {
+public class CompositeOrLampPattern implements MatrixLampPattern {
 	public CompositeOrLampPattern() {
 		patterns = new ArrayList<>();
 	}

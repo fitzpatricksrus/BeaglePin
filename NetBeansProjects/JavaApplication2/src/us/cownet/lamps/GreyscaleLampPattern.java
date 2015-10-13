@@ -1,6 +1,6 @@
 package us.cownet.lamps;
 
-public class GreyscaleLampPattern implements LampPattern {
+public class GreyscaleLampPattern implements MatrixLampPattern {
 
 	public GreyscaleLampPattern() {
 	}

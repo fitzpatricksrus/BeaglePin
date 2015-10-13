@@ -3,7 +3,7 @@ package us.cownet.lamps;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SimpleLampPattern implements LampPattern {
+public class SimpleLampPattern implements MatrixLampPattern {
 	private int[] pattern;
 
 	public SimpleLampPattern(int columnCount) {

@@ -2,7 +2,7 @@ package us.cownet.lamps;
 
 import java.util.ArrayList;
 
-public class LampSequence implements LampPattern {
+public class LampSequence implements MatrixLampPattern {
 	private int ndx;
 	private final ArrayList<LampPattern> patterns;
 	private final Cycle cycle;

@@ -4,7 +4,7 @@ package us.cownet.lamps;
  Simply take the whole pattern and fade it up or down as a whole.  All lamps have the same
  brightness.  One time deal.  Fade and then sit.
  */
-public class FadingLampPattern implements LampPattern {
+public class FadingLampPattern implements MatrixLampPattern {
 	//Here's the basic algorithm.
 	//	int fadeSpeed = 10;
 	//	for (int flipNdx = 0; flipNdx <= fadeSpeed; flipNdx++) {
