@@ -2,14 +2,14 @@ package us.cownet.lamps.tests;
 
 import us.cownet.lamps.FadingLampPattern;
 import us.cownet.lamps.LampMatrix;
-import us.cownet.lamps.SimpleLampPattern;
+import us.cownet.lamps.SimpleMatrixLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
 public class FadingLampPatternTest implements Test {
 	public FadingLampPatternTest(LampMatrix matrix) {
 		this.matrix = matrix;
-		sourcePattern = new SimpleLampPattern(patternValues);
+		sourcePattern = new SimpleMatrixLampPattern(patternValues);
 		fadingPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_OFF, 255);
 	}
@@ -35,7 +35,7 @@ public class FadingLampPatternTest implements Test {
 		0b01000001
 	};
 
-	private SimpleLampPattern sourcePattern;
+	private SimpleMatrixLampPattern sourcePattern;
 	private FadingLampPattern fadingPattern;
 	private final LampMatrix matrix;
 

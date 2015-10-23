@@ -1,6 +1,10 @@
 package us.cownet.lamps.tests;
 
-import us.cownet.lamps.*;
+import us.cownet.lamps.LampMatrix;
+import us.cownet.lamps.PinballOutputController;
+import us.cownet.lamps.PrefetchSimpleLampMatrix;
+import us.cownet.lamps.SimpleLampMatrix;
+import us.cownet.lamps.SimpleMatrixLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
@@ -22,7 +26,7 @@ public class LampMatrixTest implements Test {
 		0b01000001
 	};
 
-	private static final SimpleLampPattern pattern = new SimpleLampPattern(patternValues);
+	private static final SimpleMatrixLampPattern pattern = new SimpleMatrixLampPattern(patternValues);
 
 	@Override
 	public void setup() {

@@ -3,25 +3,25 @@ package us.cownet.lamps;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SimpleLampPattern implements MatrixLampPattern {
+public class SimpleMatrixLampPattern implements MatrixLampPattern {
 	private int[] pattern;
 
-	public SimpleLampPattern(int columnCount) {
+	public SimpleMatrixLampPattern(int columnCount) {
 		this.pattern = new int[columnCount];
 	}
 
-	public SimpleLampPattern(int[] pattern) {
+	public SimpleMatrixLampPattern(int[] pattern) {
 		this.pattern = pattern;
 	}
 
 	@Override
-	public SimpleLampPattern clone() {
+	public SimpleMatrixLampPattern clone() {
 		try {
-			SimpleLampPattern result = (SimpleLampPattern)super.clone();
+			SimpleMatrixLampPattern result = (SimpleMatrixLampPattern)super.clone();
 			result.setPattern(getPattern().clone());
 			return result;
 		} catch (CloneNotSupportedException ex) {
-			Logger.getLogger(SimpleLampPattern.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SimpleMatrixLampPattern.class.getName()).log(Level.SEVERE, null, ex);
 			return null;
 		}
 	}

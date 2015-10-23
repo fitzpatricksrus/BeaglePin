@@ -51,7 +51,7 @@ public class GreyscaleLampPattern implements MatrixLampPattern {
 		greyscaleCycleSize = (1 << grayscaleBits) - 1;
 		mask = new int[grayscaleBits];
 		index = new int[greyscaleCycleSize];
-		patterns = new SimpleLampPattern[grayscaleBits];
+		patterns = new SimpleMatrixLampPattern[grayscaleBits];
 
 		int next = 0;
 		for (int i = 0; i < grayscaleBits; i++) {
@@ -64,7 +64,7 @@ public class GreyscaleLampPattern implements MatrixLampPattern {
 		int colCount = greyPattern.length;
 		int rowCount = greyPattern[0].length;
 		for (int i = 0; i < grayscaleBits; i++) {
-			patterns[i] = new SimpleLampPattern(new int[colCount]);
+			patterns[i] = new SimpleMatrixLampPattern(new int[colCount]);
 			for (int col = 0; col < colCount; col++) {
 				for (int row = 0; row < rowCount; row++) {
 					boolean isOn = (greyPattern[col][row] & mask[i]) != 0;
@@ -81,7 +81,7 @@ public class GreyscaleLampPattern implements MatrixLampPattern {
 	// how many bits of greyscale resolution
 	private int grayscaleBits;
 	// component lamp patters.  one for each greyscale bit
-	private SimpleLampPattern patterns[];
+	private SimpleMatrixLampPattern patterns[];
 	// how many ticks in greyscale cycle
 	private int greyscaleCycleSize;
 	// mask for each bit in the cycle

@@ -4,7 +4,7 @@ import us.cownet.lamps.CompositeOrLampPattern;
 import us.cownet.lamps.FadingLampPattern;
 import us.cownet.lamps.LampMatrix;
 import us.cownet.lamps.LampSequence;
-import us.cownet.lamps.SimpleLampPattern;
+import us.cownet.lamps.SimpleMatrixLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.TimerUtil;
 
@@ -40,7 +40,7 @@ public class CompisiteOrLampPatternTest implements Test {
 	@Override
 	public void setup() {
 		int speed = 255;
-		SimpleLampPattern sourcePattern = new SimpleLampPattern(patternValues);
+		SimpleMatrixLampPattern sourcePattern = new SimpleMatrixLampPattern(patternValues);
 		FadingLampPattern fadeOnPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_ON, speed);
 		FadingLampPattern fadeOffPattern = new FadingLampPattern(sourcePattern,
@@ -50,7 +50,7 @@ public class CompisiteOrLampPatternTest implements Test {
 		innerSequence.add(fadeOnPattern);
 		innerSequence.add(fadeOffPattern);
 
-		SimpleLampPattern sourcePattern1 = new SimpleLampPattern(patternValues1);
+		SimpleMatrixLampPattern sourcePattern1 = new SimpleMatrixLampPattern(patternValues1);
 		FadingLampPattern fadeOnPattern1 = new FadingLampPattern(sourcePattern1,
 				FadingLampPattern.FadeDirection.FADE_ON, speed);
 		FadingLampPattern fadeOffPattern1 = new FadingLampPattern(sourcePattern1,

@@ -133,7 +133,7 @@ public class FadingLampPattern implements MatrixLampPattern {
 		 */
 
 		int patternData[] = {0b11111111};
-		SimpleLampPattern simplePattern = new SimpleLampPattern(patternData);
+		SimpleMatrixLampPattern simplePattern = new SimpleMatrixLampPattern(patternData);
 		FadingLampPattern fadingPattern = new FadingLampPattern(simplePattern,
 				FadeDirection.FADE_ON, 4);
 

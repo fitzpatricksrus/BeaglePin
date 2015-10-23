@@ -3,7 +3,7 @@ package us.cownet.lamps.tests;
 import us.cownet.lamps.FadingLampMatrix;
 import us.cownet.lamps.LampMatrix;
 import us.cownet.lamps.PinballOutputController;
-import us.cownet.lamps.SimpleLampPattern;
+import us.cownet.lamps.SimpleMatrixLampPattern;
 import us.cownet.testing.Test;
 import us.cownet.timers.Ticker;
 import us.cownet.timers.TimerUtil;
@@ -37,8 +37,8 @@ public class FadingLampMatrixTest implements Test {
 		0b10111110
 	};
 
-	private static final SimpleLampPattern pattern1 = new SimpleLampPattern(patternValues1);
-	private static final SimpleLampPattern pattern2 = new SimpleLampPattern(patternValues2);
+	private static final SimpleMatrixLampPattern pattern1 = new SimpleMatrixLampPattern(patternValues1);
+	private static final SimpleMatrixLampPattern pattern2 = new SimpleMatrixLampPattern(patternValues2);
 	private final Ticker ticker = new Ticker(200L * 1000L);
 
 	@Override

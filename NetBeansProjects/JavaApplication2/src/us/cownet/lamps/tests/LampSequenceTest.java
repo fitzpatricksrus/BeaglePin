@@ -14,7 +14,7 @@ public class LampSequenceTest implements Test {
 
 	private LampPattern createOnOffPattern(int patternSource[]) {
 		final int speed = 15;
-		SimpleLampPattern sourcePattern = new SimpleLampPattern(patternSource);
+		SimpleMatrixLampPattern sourcePattern = new SimpleMatrixLampPattern(patternSource);
 		FadingLampPattern fadeOnPattern = new FadingLampPattern(sourcePattern,
 				FadingLampPattern.FadeDirection.FADE_ON, speed);
 		FadingLampPattern fadeOffPattern = new FadingLampPattern(sourcePattern,
