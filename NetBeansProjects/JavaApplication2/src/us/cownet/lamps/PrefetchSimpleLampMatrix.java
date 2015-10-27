@@ -89,7 +89,7 @@ public class PrefetchSimpleLampMatrix implements LampMatrix {
 			attachedPattern = newPattern;
 			if (attachedPattern != null) {
 				attachedPattern.attached();
-				prefetchedColumnValue = attachedPattern.getColumn(currentColumn);
+				prefetchedColumnValue = internalGetColumn(attachedPattern, currentColumn);
 			}
 		}
 	}
